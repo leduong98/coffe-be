@@ -11,14 +11,14 @@ import java.util.List;
 public class RoleService extends BaseService {
 
     public Role findByRoleType(RoleType roleType){
-        return roleRepository.findByRoleType(roleType);
+        return roleRepository.findByName(roleType).get();
     }
 
     public void initRole(){
         List<Role> roles = new ArrayList();
-        roles.add(Role.builder().id(generateSequence(Role.SEQUENCE_NAME)).roleType(RoleType.USER).build());
-        roles.add(Role.builder().id(generateSequence(Role.SEQUENCE_NAME)).roleType(RoleType.ADMIN).build());
-        roles.add(Role.builder().id(generateSequence(Role.SEQUENCE_NAME)).roleType(RoleType.EMPLOYEE).build());
+        roles.add(Role.builder().name(RoleType.USER).build());
+        roles.add(Role.builder().name(RoleType.ADMIN).build());
+        roles.add(Role.builder().name(RoleType.EMPLOYEE).build());
         roleRepository.saveAll(roles);
     }
 }

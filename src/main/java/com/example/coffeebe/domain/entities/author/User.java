@@ -1,48 +1,53 @@
 package com.example.coffeebe.domain.entities.author;
 
 import com.example.coffeebe.domain.entities.BaseEntity;
-import com.example.coffeebe.domain.entities.enums.UserStatus;
+import com.example.coffeebe.domain.entities.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document(collection = "User")
+@Entity
+@Table(name = "User")
 public class User extends BaseEntity {
 
-    @Transient
-    public static final String SEQUENCE_NAME = "user";
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Field(name = "name")
+    @Column(name = "name")
     private String userName;
 
-    @Field(name = "email")
+    @Column(name = "email")
     private String email;
 
-    @Field(name = "password")
+    @Column(name = "password")
     private String password;
 
-    @Field(name = "full_name")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+              name = "user_roles"
+            , joinColumns = @JoinColumn(name = "user_id")
+            , inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+    @Column(name = "full_name")
     private String fullName;
 
-    @Field(name = "phone")
+    @Column(name = "phone")
     private String phoneNumber;
 
-    @Field(name ="role_id")
-    private Role role;
-
-    @Field(name = "status")
-    private UserStatus userStatus;
+    @Column(name = "status")
+    private Status status;
 
 }

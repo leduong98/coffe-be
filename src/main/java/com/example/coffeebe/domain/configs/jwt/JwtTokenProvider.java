@@ -1,9 +1,12 @@
 package com.example.coffeebe.domain.configs.jwt;
 
 import com.example.coffeebe.domain.entities.CustomUserDetails;
+import com.example.coffeebe.domain.entities.author.Role;
 import com.example.coffeebe.domain.entities.author.User;
+import com.example.coffeebe.domain.repositories.RoleRepository;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -18,6 +21,9 @@ public class JwtTokenProvider {
 
     // set time jwt
     private long JWT_EXPIRATION = 2 * 3600 * 1000;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     //gen jwt from user info
     public String generateToken(CustomUserDetails userDetails) {
@@ -34,7 +40,6 @@ public class JwtTokenProvider {
                 .compact();
 
     }
-
 
     // get user info from jwt
     public int getUserIdFromJWT(String token) {
@@ -65,8 +70,8 @@ public class JwtTokenProvider {
     private Map<String, Object> getClaims(User user){
         Map<String, Object> mClaims = new HashMap<>();
         mClaims.put("email", user.getEmail());
-        mClaims.put("role", user.getRole());
-        mClaims.put("state", user.getUserStatus());
+        mClaims.put("role", user.getRoles());
+        mClaims.put("state", user.getStatus());
         return mClaims;
     }
 

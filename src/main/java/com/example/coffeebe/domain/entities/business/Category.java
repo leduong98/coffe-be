@@ -1,28 +1,34 @@
-package com.example.coffeebe.domain.entities.author;
+package com.example.coffeebe.domain.entities.business;
 
 import com.example.coffeebe.domain.entities.BaseEntity;
-import com.example.coffeebe.domain.entities.enums.RoleType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Data
 @Entity
-@Table(name = "Role")
-public class Role extends BaseEntity {
+@Table(name = "Category")
+public class Category extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
-    private RoleType name;
+    private String name;
+
+    @Column(name = "Link")
+    private String link;
+
+    @Column(name = "order")
+    private String order;
+
+    @Column(name = "parent_id")
+    private String parentId;
 
 
 }

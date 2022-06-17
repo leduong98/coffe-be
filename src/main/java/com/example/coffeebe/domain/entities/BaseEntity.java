@@ -10,8 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,13 +19,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BaseEntity {
 
-    @Field(name = "created_at")
+    @Column(name = "created_at")
     @CreatedDate
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     protected LocalDateTime createdAt = Helper.getTodayDateTimeHCMZone();
 
-    @Field(name = "updated_at")
+    @Column(name = "updated_at")
     @LastModifiedDate
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

@@ -1,4 +1,4 @@
-package com.example.coffeebe.app.responses;
+package com.example.coffeebe.app.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

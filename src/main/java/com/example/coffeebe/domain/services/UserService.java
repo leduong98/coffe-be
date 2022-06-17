@@ -2,13 +2,13 @@ package com.example.coffeebe.domain.services;
 
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
-import com.example.coffeebe.app.dtos.response.LoginResponse;
+import com.example.coffeebe.app.dtos.responses.LoginResponse;
 import com.example.coffeebe.domain.configs.jwt.JwtTokenProvider;
 import com.example.coffeebe.domain.entities.CustomUserDetails;
 import com.example.coffeebe.domain.entities.author.Role;
 import com.example.coffeebe.domain.entities.author.User;
 import com.example.coffeebe.domain.entities.enums.RoleType;
-import com.example.coffeebe.domain.entities.enums.UserStatus;
+import com.example.coffeebe.domain.entities.enums.Status;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +22,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @Log4j2
 public class UserService extends BaseService {
@@ -33,30 +36,58 @@ public class UserService extends BaseService {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-
-
     //findById
-    public UserDetails loadUserById(long id){
+    public UserDetails loadUserById(long id) {
         User user = userRepository.findById(id).orElse(null);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("not found");
         }
         return new CustomUserDetails(user);
     }
 
     //register
-    public ResponseEntity<?> register(RegisterRequest registerRequest){
+    public ResponseEntity<?> register(RegisterRequest registerRequest) {
         boolean emailExits = userRepository.existsByEmail(registerRequest.getEmail());
-        if (emailExits){
+        if (emailExits) {
             return new ResponseEntity<>("Email have existed!", HttpStatus.BAD_REQUEST);
         }
-        Role role = roleRepository.findByRoleType(RoleType.USER);
+        Set<String> strRoles = registerRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+
+        if (strRoles == null){
+            Role userRole =roleRepository.findByName(RoleType.USER)
+                    .orElseThrow(
+                            () -> new RuntimeException("Error: Role is not found.")
+                    );
+            roles.add(userRole);
+        }
+        else {
+            strRoles.forEach( role -> {
+                switch (role){
+                    case "admin" :
+                        Role adminRole = roleRepository.findByName(RoleType.ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+                        break;
+                    case "user" :
+                        Role modRole = roleRepository.findByName(RoleType.USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(modRole);
+                        break;
+                    default:
+                        Role useRole = roleRepository.findByName(RoleType.EMPLOYEE)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(useRole);
+                }
+            } );
+        }
+
+
         User user = User.builder()
-                .id(generateSequence(User.SEQUENCE_NAME))
                 .email(registerRequest.getEmail())
                 .password(encoder.encode(registerRequest.getPassword()))
-                .role(role)
-                .userStatus(UserStatus.ACTIVE)
+                .roles(roles)
+                .status(Status.ACTIVE)
                 .build();
         userRepository.save(user);
         return new ResponseEntity<>("Register your account success!", HttpStatus.OK);
@@ -66,15 +97,14 @@ public class UserService extends BaseService {
     public ResponseEntity<?> login(LoginRequest loginRequest) throws Exception {
         User user = getUser(loginRequest.getEmail());
         boolean checkAccount = encoder.matches(loginRequest.getPassword(), user.getPassword());
-        if (!checkAccount){
+        if (!checkAccount) {
             return new ResponseEntity<>("Wrong password", HttpStatus.BAD_REQUEST);
         }
 
 
-        if (user.getUserStatus().equals(UserStatus.NON_ACTIVE)){
+        if (user.getStatus().equals(Status.NON_ACTIVE)) {
             return new ResponseEntity<>("your account is not active", HttpStatus.BAD_REQUEST);
-        }
-        else {
+        } else {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getEmail(),
@@ -85,8 +115,6 @@ public class UserService extends BaseService {
             String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
             return ResponseEntity.ok(new LoginResponse(jwt));
         }
-
     }
-
 
 }
