@@ -24,8 +24,8 @@ public class Category extends BaseEntity {
     @Column(name = "Link")
     private String link;
 
-    @Column(name = "order")
-    private String order;
+    @Column(name = "position")
+    private String position;
 
     @Column(name = "parent_id")
     private String parentId;

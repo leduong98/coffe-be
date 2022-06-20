@@ -13,30 +13,23 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "Order")
+@Table(name = "product_order")
 public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "transaction_Id")
-    private Transaction transaction;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Product> product;
-
-    @JoinColumn(name = "quantity")
+    @Column(name = "quantity")
     private Integer quantity;
 
-    @JoinColumn(name = "amount")
+    @Column(name = "amount")
     private Integer amount;
 
-    @JoinColumn(name = "data")
+    @Column(name = "data")
     private String data;
 
-    @JoinColumn(name = "status")
+    @Column(name = "status")
     private Status status;
 
 }

@@ -1,14 +1,15 @@
-package com.example.coffeebe.domain.services;
+package com.example.coffeebe.domain.services.impl;
 
 import com.example.coffeebe.domain.entities.author.Role;
 import com.example.coffeebe.domain.entities.enums.RoleType;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RoleService extends BaseService {
+public class RoleService extends BaseAbtractService {
 
     public Role findByRoleType(RoleType roleType){
         return roleRepository.findByName(roleType).get();

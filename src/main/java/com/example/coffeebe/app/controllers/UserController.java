@@ -2,15 +2,25 @@ package com.example.coffeebe.app.controllers;
 
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
+import com.example.coffeebe.domain.services.impl.RoleService;
+import com.example.coffeebe.domain.services.impl.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api")
-public class UserController extends BaseController{
-
+@RequestMapping("/api/user")
+public class UserController {
+	
+	@Autowired
+	RoleService roleService;
+	
+	@Autowired
+	UserService userService;
+	
     @GetMapping("/init-role")
     public void initRole(){
         roleService.initRole();

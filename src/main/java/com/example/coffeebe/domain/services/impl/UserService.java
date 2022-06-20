@@ -1,4 +1,4 @@
-package com.example.coffeebe.domain.services;
+package com.example.coffeebe.domain.services.impl;
 
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
@@ -9,6 +9,7 @@ import com.example.coffeebe.domain.entities.author.Role;
 import com.example.coffeebe.domain.entities.author.User;
 import com.example.coffeebe.domain.entities.enums.RoleType;
 import com.example.coffeebe.domain.entities.enums.Status;
+
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ import java.util.Set;
 
 @Service
 @Log4j2
-public class UserService extends BaseService {
+public class UserService extends BaseAbtractService {
 
     @Autowired
     private PasswordEncoder encoder;
