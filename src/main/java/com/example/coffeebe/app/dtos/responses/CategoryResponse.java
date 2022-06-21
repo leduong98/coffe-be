@@ -9,7 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryResponse {
-    @JsonProperty("access_token")
-    private String accessToken;
+    private Long id;
 
+    private String name;
+
+    private String link;
+
+    private String position;
+
+    @JsonProperty("parent_id")
+    private String parentId;
 }

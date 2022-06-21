@@ -1,17 +1,9 @@
 package com.example.coffeebe.domain.entities.enums;
 
-public enum Status {
+public class Status {
 
-//    user status
-    ACTIVE,
-    NON_ACTIVE,
-
-//    Transaction status
-    PAID,
-    UNPAID,
-
-    //Product status
-
-    //Order status
-
+    public static final String ACTIVE = "ACTIVE";
+    public static final String NON_ACTIVE = "NON_ACTIVE";
+    public static final String PAID = "PAID";
+    public static final String UNPAID = "UNPAID";
 }

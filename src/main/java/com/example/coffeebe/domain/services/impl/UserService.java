@@ -52,37 +52,14 @@ public class UserService extends BaseAbtractService {
         if (emailExits) {
             return new ResponseEntity<>("Email have existed!", HttpStatus.BAD_REQUEST);
         }
-        Set<String> strRoles = registerRequest.getRole();
+
         Set<Role> roles = new HashSet<>();
 
-        if (strRoles == null){
             Role userRole =roleRepository.findByName(RoleType.USER)
                     .orElseThrow(
                             () -> new RuntimeException("Error: Role is not found.")
                     );
             roles.add(userRole);
-        }
-        else {
-            strRoles.forEach( role -> {
-                switch (role){
-                    case "admin" :
-                        Role adminRole = roleRepository.findByName(RoleType.ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-                        break;
-                    case "user" :
-                        Role modRole = roleRepository.findByName(RoleType.USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-                        break;
-                    default:
-                        Role useRole = roleRepository.findByName(RoleType.EMPLOYEE)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(useRole);
-                }
-            } );
-        }
-
 
         User user = User.builder()
                 .email(registerRequest.getEmail())

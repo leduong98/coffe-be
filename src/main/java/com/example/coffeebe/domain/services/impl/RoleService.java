@@ -11,8 +11,8 @@ import java.util.List;
 @Service
 public class RoleService extends BaseAbtractService {
 
-    public Role findByRoleType(RoleType roleType){
-        return roleRepository.findByName(roleType).get();
+    public Role findByRoleType(String roleType) throws Exception {
+        return roleRepository.findByName(roleType).orElseThrow(() -> new Exception("Role not exist"));
     }
 
     public void initRole(){

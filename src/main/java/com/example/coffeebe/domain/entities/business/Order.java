@@ -1,13 +1,11 @@
 package com.example.coffeebe.domain.entities.business;
 
 import com.example.coffeebe.domain.entities.BaseEntity;
-import com.example.coffeebe.domain.entities.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,6 +28,6 @@ public class Order extends BaseEntity {
     private String data;
 
     @Column(name = "status")
-    private Status status;
+    private String status;
 
 }

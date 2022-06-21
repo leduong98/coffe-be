@@ -1,7 +1,6 @@
 package com.example.coffeebe.domain.entities.author;
 
 import com.example.coffeebe.domain.entities.BaseEntity;
-import com.example.coffeebe.domain.entities.enums.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +21,7 @@ public class Role extends BaseEntity {
     private Long id;
 
     @Column(name = "name")
-    private RoleType name;
+    private String name;
 
 
 }

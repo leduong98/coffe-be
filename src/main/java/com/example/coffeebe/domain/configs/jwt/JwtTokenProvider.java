@@ -1,7 +1,6 @@
 package com.example.coffeebe.domain.configs.jwt;
 
 import com.example.coffeebe.domain.entities.CustomUserDetails;
-import com.example.coffeebe.domain.entities.author.Role;
 import com.example.coffeebe.domain.entities.author.User;
 import com.example.coffeebe.domain.repositories.RoleRepository;
 import io.jsonwebtoken.*;

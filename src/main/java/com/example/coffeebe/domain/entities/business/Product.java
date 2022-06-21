@@ -1,12 +1,10 @@
 package com.example.coffeebe.domain.entities.business;
 
-import com.example.coffeebe.domain.entities.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +24,7 @@ public class Product {
     private String detail;
 
     @Column(name = "price")
-    private String price;
+    private Double price;
 
     @Column(name = "image")
     private String image;
@@ -36,7 +34,7 @@ public class Product {
     private Category category;
 
     @Column(name = "status")
-    private Status status;
+    private String status;
 
     @Column(name = "image_list")
     private String imageList;

@@ -48,6 +48,6 @@ public class User extends BaseEntity {
     private String phoneNumber;
 
     @Column(name = "status")
-    private Status status;
+    private String status;
 
 }

@@ -23,7 +23,7 @@ public class Transaction extends BaseEntity {
     private Long id;
 
     @Column(name = "status")
-    private Status status;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "User_id")
