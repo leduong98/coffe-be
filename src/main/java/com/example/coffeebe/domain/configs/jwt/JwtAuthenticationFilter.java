@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.coffeebe.domain.services.impl.UserService;
+import com.example.coffeebe.domain.services.impl.author.UserService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

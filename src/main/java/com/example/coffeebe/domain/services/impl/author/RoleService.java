@@ -1,8 +1,9 @@
-package com.example.coffeebe.domain.services.impl;
+package com.example.coffeebe.domain.services.impl.author;
 
 import com.example.coffeebe.domain.entities.author.Role;
 import com.example.coffeebe.domain.entities.enums.RoleType;
 
+import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

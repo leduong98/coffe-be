@@ -3,6 +3,7 @@ package com.example.coffeebe.domain.services.impl;
 import com.example.coffeebe.domain.entities.author.User;
 import com.example.coffeebe.domain.repositories.CategoryRepository;
 import com.example.coffeebe.domain.repositories.RoleRepository;
+import com.example.coffeebe.domain.repositories.SliderRepository;
 import com.example.coffeebe.domain.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class BaseAbtractService {
 
     @Autowired
     public CategoryRepository categoryRepository;
+
+    @Autowired
+    public SliderRepository sliderRepository;
 
     @Autowired
     public ModelMapper modelMapper;

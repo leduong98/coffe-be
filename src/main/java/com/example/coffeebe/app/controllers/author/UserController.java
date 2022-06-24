@@ -1,9 +1,9 @@
-package com.example.coffeebe.app.controllers;
+package com.example.coffeebe.app.controllers.author;
 
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
-import com.example.coffeebe.domain.services.impl.RoleService;
-import com.example.coffeebe.domain.services.impl.UserService;
+import com.example.coffeebe.domain.services.impl.author.RoleService;
+import com.example.coffeebe.domain.services.impl.author.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

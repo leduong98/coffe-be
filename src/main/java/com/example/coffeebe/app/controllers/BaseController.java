@@ -2,6 +2,7 @@ package com.example.coffeebe.app.controllers;
 
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
+import com.example.coffeebe.domain.entities.BaseEntity;
 import com.example.coffeebe.domain.services.BaseService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,9 @@ import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +36,12 @@ public abstract class BaseController<O, ID, P1, FD extends FilterDto<O>> {
         this.responseClass = responseClass;
         this.filterDto = fpClass;
         this.modelMapper = new ModelMapper();
+    }
+
+    @GetMapping("/all")
+    Page<O> findAll(Pageable pageable) throws Exception {
+        Page<O> page = service.findAll(pageable);
+        return page;
     }
 
     @GetMapping("/{id}")

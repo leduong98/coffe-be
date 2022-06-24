@@ -1,4 +1,4 @@
-package com.example.coffeebe.domain.services.impl;
+package com.example.coffeebe.domain.services.impl.author;
 
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
@@ -10,6 +10,7 @@ import com.example.coffeebe.domain.entities.author.User;
 import com.example.coffeebe.domain.entities.enums.RoleType;
 import com.example.coffeebe.domain.entities.enums.Status;
 
+import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

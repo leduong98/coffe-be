@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 public interface BaseService<T, S> {
-  Page<T> findAll(Pageable pageable);
+  Page<T> findAll(Pageable pageable) throws Exception;
 
   T findById(HttpServletRequest request, S id);
 
