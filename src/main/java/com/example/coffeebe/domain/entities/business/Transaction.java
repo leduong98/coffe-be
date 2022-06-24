@@ -2,20 +2,20 @@ package com.example.coffeebe.domain.entities.business;
 
 import com.example.coffeebe.domain.entities.BaseEntity;
 import com.example.coffeebe.domain.entities.author.User;
-import com.example.coffeebe.domain.entities.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Transaction")
+@Table(name = "transaction")
 public class Transaction extends BaseEntity {
 
     @Id
@@ -49,5 +49,8 @@ public class Transaction extends BaseEntity {
 
     @Column(name = "security")
     private String security;
+
+    @OneToMany(mappedBy = "transaction", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Order> orders;
 
 }

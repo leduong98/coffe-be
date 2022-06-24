@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "Slider")
+@Table(name = "slider")
 public class Slider extends BaseEntity {
 
     @Id

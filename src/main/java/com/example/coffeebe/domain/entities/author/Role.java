@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "Role")
+@Table(name = "role")
 public class Role extends BaseEntity {
 
     @Id

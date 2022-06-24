@@ -54,18 +54,15 @@ public class UserService extends BaseAbtractService {
             return new ResponseEntity<>("Email have existed!", HttpStatus.BAD_REQUEST);
         }
 
-        Set<Role> roles = new HashSet<>();
-
-            Role userRole =roleRepository.findByName(RoleType.USER)
+        Role userRole =roleRepository.findByName(RoleType.USER)
                     .orElseThrow(
                             () -> new RuntimeException("Error: Role is not found.")
                     );
-            roles.add(userRole);
 
         User user = User.builder()
                 .email(registerRequest.getEmail())
                 .password(encoder.encode(registerRequest.getPassword()))
-                .roles(roles)
+                .role(userRole)
                 .status(Status.ACTIVE)
                 .build();
         userRepository.save(user);

@@ -69,7 +69,7 @@ public class JwtTokenProvider {
     private Map<String, Object> getClaims(User user){
         Map<String, Object> mClaims = new HashMap<>();
         mClaims.put("email", user.getEmail());
-        mClaims.put("role", user.getRoles());
+        mClaims.put("role", user.getRole());
         mClaims.put("state", user.getStatus());
         return mClaims;
     }

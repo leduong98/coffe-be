@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Builder
-@Table(name = "Category")
+@Table(name = "category")
 public class Category extends BaseEntity {
 
     @Id
@@ -23,7 +23,7 @@ public class Category extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "Link")
+    @Column(name = "link")
     private String link;
 
     @Column(name = "position")
@@ -31,6 +31,5 @@ public class Category extends BaseEntity {
 
     @Column(name = "parent_id")
     private Long parentId;
-
 
 }
