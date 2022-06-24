@@ -62,6 +62,8 @@ public class UserService extends BaseAbtractService {
         User user = User.builder()
                 .email(registerRequest.getEmail())
                 .password(encoder.encode(registerRequest.getPassword()))
+                .birthday(registerRequest.getBirthday())
+                .address(registerRequest.getAddress())
                 .role(userRole)
                 .status(Status.ACTIVE)
                 .build();
