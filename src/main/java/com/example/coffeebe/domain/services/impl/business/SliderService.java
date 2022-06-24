@@ -8,6 +8,7 @@ import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,8 @@ import java.util.List;
 public class SliderService extends BaseAbtractService implements BaseService<Slider, Long> {
 
     @Override
-    public Page<Slider> findAll(Pageable pageable) throws Exception {
+    public Page<Slider> findAll() throws Exception {
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
         Page<Slider> sliders = sliderRepository.findAll(pageable);
         if (sliders.isEmpty()) {
             throw new Exception("Slider is not found");

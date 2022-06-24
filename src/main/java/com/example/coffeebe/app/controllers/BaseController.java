@@ -39,8 +39,8 @@ public abstract class BaseController<O, ID, P1, FD extends FilterDto<O>> {
     }
 
     @GetMapping("/all")
-    Page<O> findAll(Pageable pageable) throws Exception {
-        Page<O> page = service.findAll(pageable);
+    Page<O> findAll() throws Exception {
+        Page<O> page = service.findAll();
         return page;
     }
 

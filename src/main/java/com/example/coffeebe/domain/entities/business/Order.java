@@ -4,6 +4,7 @@ import com.example.coffeebe.domain.entities.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Data
 @Entity
+@SuperBuilder
 @Table(name = "product_order")
 public class Order extends BaseEntity {
 

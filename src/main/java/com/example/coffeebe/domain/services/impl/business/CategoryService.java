@@ -9,6 +9,7 @@ import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 public class CategoryService extends BaseAbtractService implements BaseService<Category, Long> {
 
     @Override
-    public Page<Category> findAll(Pageable pageable) throws Exception {
+    public Page<Category> findAll() throws Exception {
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
         Page<Category> categories = categoryRepository.findAll(pageable);
         if (categories.isEmpty()) {
             throw new Exception("Category is not find");

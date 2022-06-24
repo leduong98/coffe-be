@@ -5,6 +5,7 @@ import com.example.coffeebe.domain.entities.author.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Entity
+@SuperBuilder
 @Table(name = "product_rating")
 public class ProductRating extends BaseEntity {
 
