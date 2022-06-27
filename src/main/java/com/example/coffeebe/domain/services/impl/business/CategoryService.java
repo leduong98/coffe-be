@@ -5,17 +5,17 @@ import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.CategoryDto;
 import com.example.coffeebe.domain.entities.business.Category;
 import com.example.coffeebe.domain.services.BaseService;
-
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
+import com.example.coffeebe.domain.utils.exception.CustomErrorMessage;
+import com.example.coffeebe.domain.utils.exception.CustomException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 @Log4j2
@@ -23,36 +23,33 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
 
     @Override
     public Page<Category> findAll() throws Exception {
-        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
         Page<Category> categories = categoryRepository.findAll(pageable);
         if (categories.isEmpty()) {
-            throw new Exception("Category is not find");
+            throw new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.CATEGORY_NOT_FOUND);
         }
         return categories;
     }
 
     @Override
     public Category findById(HttpServletRequest request, Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Error: Category is not found.")
-        );
-        return category;
+        return categoryRepository.findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.CATEGORY_NOT_FOUND));
     }
 
     @Override
     public Category create(HttpServletRequest request, DTO dto) {
         CategoryDto categoryDto = modelMapper.map(dto, CategoryDto.class);
-        Category category = Category.builder().link(categoryDto.getLink())
-                .name(categoryDto.getName()).position(categoryDto.getPosition())
-                .parentId(categoryDto.getParentId()).build();
+        Category category = Category.builder()
+                .link(categoryDto.getLink())
+                .name(categoryDto.getName())
+                .position(categoryDto.getPosition())
+                .parentId(categoryDto.getParentId())
+                .build();
         return categoryRepository.save(category);
     }
 
     @Override
     public Category update(HttpServletRequest request, Long id, DTO dto) {
-        Category category = categoryRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Error: Category is not found.")
-        );
+        Category category = findById(request, id);
         CategoryDto categoryDto = modelMapper.map(dto, CategoryDto.class);
         category.setName(categoryDto.getName());
         category.setLink(categoryDto.getLink());
@@ -65,9 +62,7 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
 
     @Override
     public boolean delete(HttpServletRequest request, Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Error: Category is not found.")
-        );
+        Category category = findById(request, id);
 
         categoryRepository.delete(category);
         return true;

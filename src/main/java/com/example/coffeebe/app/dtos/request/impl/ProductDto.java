@@ -1,15 +1,11 @@
 package com.example.coffeebe.app.dtos.request.impl;
 
 import com.example.coffeebe.app.dtos.request.DTO;
-import com.example.coffeebe.domain.entities.business.Category;
 import com.example.coffeebe.domain.entities.business.Product;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -30,7 +26,8 @@ public class ProductDto implements DTO<Product> {
     @NotNull(message = "image not null")
     private String image;
 
-    @NotNull(message = "categoryId not null")
+    @NotNull(message = "category_id not null")
+    @JsonProperty("category_id")
     private Long categoryId;
 
     @NotNull(message = "imageList not null")

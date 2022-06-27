@@ -6,10 +6,12 @@ import com.example.coffeebe.app.dtos.request.impl.SliderDto;
 import com.example.coffeebe.domain.entities.business.Slider;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
+import com.example.coffeebe.domain.utils.exception.CustomErrorMessage;
+import com.example.coffeebe.domain.utils.exception.CustomException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,20 +23,16 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
 
     @Override
     public Page<Slider> findAll() throws Exception {
-        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
         Page<Slider> sliders = sliderRepository.findAll(pageable);
         if (sliders.isEmpty()) {
-            throw new Exception("Slider is not found");
+            throw new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.SLIDER_NOT_FOUND);
         }
         return sliders;
     }
 
     @Override
     public Slider findById(HttpServletRequest request, Long id) {
-        Slider slider = sliderRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Error: Slider is not found.")
-        );
-        return slider;
+        return sliderRepository.findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.SLIDER_NOT_FOUND));
     }
 
     @Override
@@ -52,9 +50,7 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
     @Override
     public Slider update(HttpServletRequest request, Long id, DTO dto) {
         SliderDto sliderDto = modelMapper.map(dto,SliderDto.class);
-        Slider slider = sliderRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Error: Slider is not found.")
-        );
+        Slider slider = findById(request, id);
         slider.setName(sliderDto.getName());
         slider.setLink(sliderDto.getLink());
         slider.setStatus(sliderDto.getStatus());
@@ -66,7 +62,7 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
     @Override
     public boolean delete(HttpServletRequest request, Long id) {
         Slider slider = sliderRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Error: Slider is not found.")
+                () -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.SLIDER_NOT_FOUND)
         );
 
         sliderRepository.delete(slider);
