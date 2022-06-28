@@ -12,6 +12,12 @@ import java.util.Date;
 @Data
 public class RegisterRequest {
 
+    @NotNull(message = "fullname not null")
+    private String fullname;
+
+    @NotNull(message = "phone not null")
+    private String phone;
+
     @Email(message = "invalid email")
     private String email;
 
