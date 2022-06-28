@@ -7,7 +7,8 @@ public enum CustomErrorMessage {
     SLIDER_NOT_FOUND("Slider not found"),
     DISCOUNT_NOT_FOUND("Discount not found"),
     ORDER_NOT_FOUND("Oder not found"),
-    TRANSACTION_NOT_FOUND("Transaction not found");
+    TRANSACTION_NOT_FOUND("Transaction not found"),
+    USER_NOT_FOUND("User not found");
 
 
     public final String val;

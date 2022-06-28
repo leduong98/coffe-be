@@ -1,5 +1,7 @@
 package com.example.coffeebe.domain.services.impl.author;
 
+import com.example.coffeebe.app.dtos.request.DTO;
+import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
 import com.example.coffeebe.app.dtos.responses.LoginResponse;
@@ -7,12 +9,16 @@ import com.example.coffeebe.domain.configs.jwt.JwtTokenProvider;
 import com.example.coffeebe.domain.entities.CustomUserDetails;
 import com.example.coffeebe.domain.entities.author.Role;
 import com.example.coffeebe.domain.entities.author.User;
+import com.example.coffeebe.domain.entities.business.Category;
 import com.example.coffeebe.domain.entities.enums.RoleType;
 import com.example.coffeebe.domain.entities.enums.Status;
 
+import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,12 +30,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
 @Log4j2
-public class UserService extends BaseAbtractService {
+public class UserService extends BaseAbtractService implements BaseService<User, Long> {
 
     @Autowired
     private PasswordEncoder encoder;
@@ -97,4 +105,38 @@ public class UserService extends BaseAbtractService {
         }
     }
 
+    @Override
+    public Page<User> findAll() throws Exception {
+        return null;
+    }
+
+    @Override
+    public User findById(HttpServletRequest request, Long id) {
+        return getById(id);
+    }
+
+    @Override
+    public User create(HttpServletRequest request, DTO dto) {
+        return null;
+    }
+
+    @Override
+    public User update(HttpServletRequest request, Long id, DTO dto) {
+        return null;
+    }
+
+    @Override
+    public boolean delete(HttpServletRequest request, Long id) {
+        return false;
+    }
+
+    @Override
+    public Page<User> filter(FilterDto<User> dto, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public List<User> filter(HttpServletRequest request) {
+        return null;
+    }
 }

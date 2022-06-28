@@ -52,6 +52,13 @@ public class BaseAbtractService {
         return user;
     }
 
+    public User getById(Long id){
+        User user = userRepository.findByUserId(id);
+        if (user == null)
+            throw new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.USER_NOT_FOUND);
+        return user;
+    }
+
     public Category getCategoryById(Long id) {
         return categoryRepository.findById(id).orElseThrow(
                 () -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.CATEGORY_NOT_FOUND)
