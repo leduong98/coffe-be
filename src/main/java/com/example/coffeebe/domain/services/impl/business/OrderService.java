@@ -34,6 +34,7 @@ public class OrderService extends BaseAbtractService implements BaseService<Orde
         Order order = orderRepository.findById(id).orElseThrow(
                 () -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.ORDER_NOT_FOUND)
         );
+
         return order;
     }
 
@@ -48,6 +49,7 @@ public class OrderService extends BaseAbtractService implements BaseService<Orde
                 .product(getProductById(orderDto.getProductID()))
                 .transaction(getTransactionById(orderDto.getTransactionId()))
                 .build();
+
         return orderRepository.save(order);
     }
 

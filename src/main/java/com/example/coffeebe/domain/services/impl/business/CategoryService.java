@@ -44,6 +44,7 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
                 .position(categoryDto.getPosition())
                 .parentId(categoryDto.getParentId())
                 .build();
+
         return categoryRepository.save(category);
     }
 

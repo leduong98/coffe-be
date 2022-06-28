@@ -41,7 +41,9 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
     public Product create(HttpServletRequest request, DTO dto) {
         ProductDto productDto = modelMapper.map(dto, ProductDto.class);
         Category category = getCategoryById(productDto.getCategoryId());
-        Product product = Product.builder().category(category).detail(productDto.getDetail())
+        Product product = Product.builder()
+                .category(category)
+                .detail(productDto.getDetail())
                 .name(productDto.getName())
                 .image(productDto.getImage())
                 .imageList(productDto.getImageList())

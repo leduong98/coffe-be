@@ -40,13 +40,13 @@ public class DiscountService extends BaseAbtractService implements BaseService<D
     @Override
     public Discount create(HttpServletRequest request, DTO dto) {
         DiscountDto discountDto = modelMapper.map(dto, DiscountDto.class);
-        Product product1 = productRepository.findById(discountDto.getProductId()).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.PRODUCT_NOT_FOUND));
         Discount discount = Discount.builder()
-                .product(product1)
+                .product(getProductById(discountDto.getProductId()))
                 .startDate(discountDto.getStartDate())
                 .endDate(discountDto.getEndDate())
                 .discount(discountDto.getDiscount())
                 .build();
+
         return discountRepository.save(discount);
     }
 
@@ -58,12 +58,14 @@ public class DiscountService extends BaseAbtractService implements BaseService<D
         discount.setStartDate(discountDto.getStartDate());
         discount.setEndDate(discountDto.getEndDate());
         discount.setDiscount(discountDto.getDiscount());
+
         return discountRepository.save(discount);
     }
 
     @Override
     public boolean delete(HttpServletRequest request, Long id) {
         Discount discount = findById(request, id);
+
         discountRepository.delete(discount);
         return true;
     }

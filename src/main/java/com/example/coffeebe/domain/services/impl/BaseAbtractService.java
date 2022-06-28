@@ -56,6 +56,7 @@ public class BaseAbtractService {
         User user = userRepository.findByUserId(id);
         if (user == null)
             throw new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.USER_NOT_FOUND);
+
         return user;
     }
 
