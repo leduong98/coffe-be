@@ -36,4 +36,7 @@ public class ProductDto implements DTO<Product> {
     @NotNull(message = "quantity not null")
     private Integer quantity;
 
+    @NotNull(message = "description not null")
+    private String description;
+
 }

@@ -58,5 +58,7 @@ public class Product extends BaseEntity {
     @JsonIgnore
     private List<Discount> discounts;
 
+    @Column(name = "description", columnDefinition = "text")
+    private String description;
 
 }
