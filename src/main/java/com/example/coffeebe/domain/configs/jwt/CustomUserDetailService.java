@@ -16,7 +16,6 @@ public class CustomUserDetailService extends BaseAbtractService implements UserD
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
-        CustomUserDetails result = new CustomUserDetails(user);
-        return result;
+        return new CustomUserDetails(user);
     }
 }

@@ -75,7 +75,7 @@ public class UserService extends BaseAbtractService {
 
     //login
     public ResponseEntity<?> login(LoginRequest loginRequest) throws Exception {
-        User user = getUser(loginRequest.getEmail());
+        User user = getUserByEmail(loginRequest.getEmail());
         boolean checkAccount = encoder.matches(loginRequest.getPassword(), user.getPassword());
         if (!checkAccount) {
             return new ResponseEntity<>("Wrong password", HttpStatus.BAD_REQUEST);

@@ -11,7 +11,6 @@ import com.example.coffeebe.domain.utils.exception.CustomErrorMessage;
 import com.example.coffeebe.domain.utils.exception.CustomException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,8 +25,11 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
 
     @Override
     public Page<Product> findAll() throws Exception {
-        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
-        return productRepository.findAll(pageable);
+        Page<Product> products = productRepository.findAll(pageable);
+        if (products.isEmpty()){
+            throw new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.PRODUCT_NOT_FOUND);
+        }
+        return products;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
     @Override
     public Product create(HttpServletRequest request, DTO dto) {
         ProductDto productDto = modelMapper.map(dto, ProductDto.class);
-        Category category = getCategory(productDto.getCategoryId());
+        Category category = getCategoryById(productDto.getCategoryId());
         Product product = Product.builder().category(category).detail(productDto.getDetail())
                 .name(productDto.getName())
                 .image(productDto.getImage())
@@ -53,7 +55,7 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
     public Product update(HttpServletRequest request, Long id, DTO dto) {
         Product product = findById(request, id);
         ProductDto productDto = modelMapper.map(dto, ProductDto.class);
-        Category category = getCategory(productDto.getCategoryId());
+        Category category = getCategoryById(productDto.getCategoryId());
         product.setName(productDto.getName());
         product.setCategory(category);
         product.setDetail(productDto.getDetail());
