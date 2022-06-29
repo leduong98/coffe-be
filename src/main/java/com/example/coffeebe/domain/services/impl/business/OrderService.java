@@ -42,11 +42,11 @@ public class OrderService extends BaseAbtractService implements BaseService<Orde
         OrderDto orderDto = modelMapper.map(dto, OrderDto.class);
         Order order = Order.builder()
                 .quantity(orderDto.getQuantity())
-                .amount(orderDto.getAmount())
-                .data(orderDto.getData())
-                .status(orderDto.getStatus())
-                .product(getProductById(orderDto.getProductID()))
-                .transaction(getTransactionById(orderDto.getTransactionId()))
+//                .amount(orderDto.getAmount())
+//                .data(orderDto.getData())
+//                .status(orderDto.getStatus())
+//                .product(getProductById(orderDto.getProductID()))
+//                .transaction(getTransactionById(orderDto.getTransactionId()))
                 .build();
         return orderRepository.save(order);
     }
@@ -56,11 +56,11 @@ public class OrderService extends BaseAbtractService implements BaseService<Orde
         Order order = findById(request, id);
         OrderDto orderDto = modelMapper.map(dto, OrderDto.class);
         order.setQuantity(orderDto.getQuantity());
-        order.setAmount(orderDto.getAmount());
-        order.setData(orderDto.getData());
-        order.setStatus(orderDto.getStatus());
+//        order.setAmount(orderDto.getAmount());
+//        order.setData(orderDto.getData());
+//        order.setStatus(orderDto.getStatus());
         order.setProduct(getProductById(orderDto.getProductID()));
-        order.setTransaction(getTransactionById(orderDto.getTransactionId()));
+     //   order.setTransaction(getTransactionById(orderDto.getTransactionId()));
 
         return orderRepository.save(order);
     }

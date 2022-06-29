@@ -29,7 +29,7 @@ public class Product extends BaseEntity {
     private String detail;
 
     @Column(name = "price")
-    private Double price;
+    private Long price;
 
     @Column(name = "image")
     private String image;

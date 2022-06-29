@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 
@@ -24,17 +26,16 @@ public class Order extends BaseEntity {
     private Integer quantity;
 
     @Column(name = "amount")
-    private Double amount;
-
-    @Column(name = "data")
-    private String data;
-
-    @Column(name = "status")
-    private String status;
+    private Long amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.EXCEPTION)
+    @JoinColumn(name = "discount_id")
+    private Discount discount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction_id")

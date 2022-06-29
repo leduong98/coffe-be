@@ -44,6 +44,9 @@ public class Transaction extends BaseEntity {
     @Column(name = "payment")
     private String payment;
 
+    @Column(name = "address")
+    private String address;
+
     @Column(name = "message")
     private String message;
 
@@ -52,5 +55,12 @@ public class Transaction extends BaseEntity {
 
     @OneToMany(mappedBy = "transaction", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Order> orders;
+
+    public void setOrderSelf(List<Order> orders) {
+        this.orders = orders;
+        this.orders.forEach(item -> {
+            item.setTransaction(this);
+        });
+    }
 
 }

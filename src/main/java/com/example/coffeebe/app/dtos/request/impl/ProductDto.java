@@ -21,7 +21,7 @@ public class ProductDto implements DTO<Product> {
     private String detail;
 
     @NotNull(message = "price not null")
-    private Double price;
+    private Long price;
 
     @NotNull(message = "image not null")
     private String image;
