@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 @Service
 public class FileStorageService {
@@ -37,12 +38,13 @@ public class FileStorageService {
     public String storeFile(MultipartFile file) {
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
+        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
                 throw new CustomException(HttpStatus.BAD_REQUEST, "Sorry! Filename contains invalid path sequence " + fileName);
             }
+            fileName = UUID.randomUUID().toString().replaceAll("-", "") + "." + extension;
 
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
