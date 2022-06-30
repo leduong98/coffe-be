@@ -4,6 +4,7 @@ import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.OrderDto;
 import com.example.coffeebe.app.dtos.request.impl.TransactionDto;
+import com.example.coffeebe.domain.entities.author.User;
 import com.example.coffeebe.domain.entities.business.Discount;
 import com.example.coffeebe.domain.entities.business.Order;
 import com.example.coffeebe.domain.entities.business.Product;
@@ -38,6 +39,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
 
     @Override
     public Transaction create(HttpServletRequest request, DTO dto) {
+        User user = getUser();
         TransactionDto transactionDto = modelMapper.map(dto, TransactionDto.class);
         List<Product> products = productRepository.findAllById(transactionDto.getOrders().
                 parallelStream().map(OrderDto::getProductID).collect(Collectors.toList()));
@@ -60,6 +62,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         transaction.setUserPhone(transactionDto.getPhone());
         transaction.setAddress(transactionDto.getAddress());
         transaction.setPaymentInfo(transactionDto.getPaymentInfo());
+        transaction.setUser(user);
         List<Order> orders = new ArrayList<>();
         transactionDto.getOrders().forEach(ele -> {
             Order order = new Order();

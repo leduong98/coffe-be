@@ -5,12 +5,13 @@ import com.example.coffeebe.domain.entities.business.*;
 import com.example.coffeebe.domain.repositories.*;
 import com.example.coffeebe.domain.utils.exception.CustomErrorMessage;
 import com.example.coffeebe.domain.utils.exception.CustomException;
-import org.hibernate.resource.transaction.TransactionRequiredForJoinException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -87,6 +88,15 @@ public class BaseAbtractService {
         return transactionRepository.findById(id).orElseThrow(
                 () -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.TRANSACTION_NOT_FOUND)
         );
+    }
+
+    public User getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByEmail(currentPrincipalName);
+        if (user == null)
+            throw new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.USER_NOT_FOUND);
+        return user;
     }
 
 

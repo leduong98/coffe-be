@@ -47,5 +47,10 @@ public class UserController extends BaseController<User, Long, UserResponse, Use
         return userService.login(loginRequest);
     }
 
+    @GetMapping("/info")
+    public UserResponse getUser() throws Exception {
+        return userService.getUserLogin();
+    }
+
 
 }
