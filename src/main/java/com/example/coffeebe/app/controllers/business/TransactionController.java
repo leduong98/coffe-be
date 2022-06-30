@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/transaction")
+@RequestMapping("/api/order")
 public class TransactionController extends BaseController<Transaction, Long, TransactionResponse, TransactionFilterDto> {
 
 	@Autowired

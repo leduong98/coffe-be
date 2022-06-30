@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("/api/order1")
 public class OrderController extends BaseController<Order, Long, OrderResponse, OrderFilterDto> {
 
     @Autowired

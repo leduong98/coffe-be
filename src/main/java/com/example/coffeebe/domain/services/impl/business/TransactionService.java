@@ -11,6 +11,7 @@ import com.example.coffeebe.domain.entities.business.Product;
 import com.example.coffeebe.domain.entities.business.Transaction;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
+import com.example.coffeebe.domain.utils.Constant;
 import com.example.coffeebe.domain.utils.exception.CustomErrorMessage;
 import com.example.coffeebe.domain.utils.exception.CustomException;
 import lombok.extern.log4j.Log4j2;
@@ -62,14 +63,19 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         transaction.setUserPhone(transactionDto.getPhone());
         transaction.setAddress(transactionDto.getAddress());
         transaction.setPaymentInfo(transactionDto.getPaymentInfo());
+        transaction.setPayment(Constant.OFFLINE);
         transaction.setUser(user);
         List<Order> orders = new ArrayList<>();
         transactionDto.getOrders().forEach(ele -> {
             Order order = new Order();
             Product product = (mapProduct.get(ele.getProductID()));
+            if (ele.getQuantity() > product.getQuantity()) {
+                throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.INVENTORY_NOT_ENOUGH);
+            }
             order.setProduct(product);
             order.setQuantity(ele.getQuantity());
-            long amount = 0;
+            product.setQuantity(product.getQuantity() - ele.getQuantity());
+            long amount;
             if (ele.getDiscountId() != null) {
                 Discount discount = mapDiscount.get(ele.getDiscountId());
                 if (discount.getProduct().getId().longValue() != ele.getProductID().longValue()) {
@@ -89,7 +95,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
             orders.add(order);
         });
         transaction.setOrderSelf(orders);
-
+        productRepository.saveAll(mapProduct.values());
         transaction = transactionRepository.save(transaction);
         return transaction;
     }

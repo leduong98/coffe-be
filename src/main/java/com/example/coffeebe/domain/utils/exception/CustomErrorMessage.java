@@ -10,8 +10,8 @@ public enum CustomErrorMessage {
     TRANSACTION_NOT_FOUND("Transaction not found"),
     USER_NOT_FOUND("User not found"),
     DISCOUNT_EXPIRED_TIME("Discount expired time"),
-    PRODUCT_INVALID("Product invalid");
-
+    PRODUCT_INVALID("Product invalid"),
+    INVENTORY_NOT_ENOUGH("Inventory not enough");
 
     public final String val;
 

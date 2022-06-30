@@ -21,13 +21,16 @@ public class TransactionDto implements DTO<Transaction> {
     @Size(min = 1, message = "orders require at least 1")
     @Valid private List<OrderDto> orders;
 
+    @NotNull(message = "email not null")
     private String email;
 
+    @NotNull(message = "phone not null")
     private String phone;
 
     @NotNull(message = "address not null")
     private String address;
 
+    @NotNull(message = "payment_info not null")
     @JsonProperty("payment_info")
     private String paymentInfo;
 

@@ -47,6 +47,8 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
                 .imageList(productDto.getImageList())
                 .price(productDto.getPrice())
                 .quantity(productDto.getQuantity())
+                .description(productDto.getDescription())
+                .detail(productDto.getDetail())
                 .build();
         return productRepository.save(product);
     }

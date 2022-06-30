@@ -51,9 +51,6 @@ public class Product extends BaseEntity {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "inventory")
-    private Integer inventory;
-
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Discount> discounts;
