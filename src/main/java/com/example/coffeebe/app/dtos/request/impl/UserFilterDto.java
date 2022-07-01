@@ -4,5 +4,5 @@ import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.domain.entities.author.User;
 
 public class UserFilterDto implements FilterDto<User> {
-
+        public String asdasd;
 }
