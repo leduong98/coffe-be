@@ -14,12 +14,12 @@ import java.util.Date;
 @AllArgsConstructor
 public class UserResponse {
 
+    private Long id;
+
     @Column(name = "user_name")
     private String userName;
 
     private String email;
-
-    private String password;
 
     @JsonProperty("full_name")
     private String fullName;

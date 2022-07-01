@@ -30,7 +30,6 @@ public class RegisterRequest {
     private String address;
 
     @NotNull(message = "birthday not null")
-    @JsonFormat(pattern = "YYYY-MM-dd")
     private Date birthday;
 
 }

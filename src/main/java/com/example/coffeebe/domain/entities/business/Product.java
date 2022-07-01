@@ -29,7 +29,7 @@ public class Product extends BaseEntity {
     private String detail;
 
     @Column(name = "price")
-    private Double price;
+    private Long price;
 
     @Column(name = "image")
     private String image;
@@ -50,12 +50,11 @@ public class Product extends BaseEntity {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "inventory")
-    private Integer inventory;
-
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Discount> discounts;
 
+    @Column(name = "description", columnDefinition = "text")
+    private String description;
 
 }

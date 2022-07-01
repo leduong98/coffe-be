@@ -22,11 +22,8 @@ import java.util.List;
 public class CategoryService extends BaseAbtractService implements BaseService<Category, Long> {
 
     @Override
-    public Page<Category> findAll() throws Exception {
+    public Page<Category> findAll() {
         Page<Category> categories = categoryRepository.findAll(pageable);
-        if (categories.isEmpty()) {
-            throw new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.CATEGORY_NOT_FOUND);
-        }
         return categories;
     }
 

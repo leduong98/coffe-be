@@ -22,9 +22,6 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String userName;
-
     @Column(name = "email")
     private String email;
 
@@ -44,7 +41,7 @@ public class User extends BaseEntity {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "birthday")
+    @Column(name = "birthday", columnDefinition = "date")
     private Date birthday;
 
     @Column(name = "status")

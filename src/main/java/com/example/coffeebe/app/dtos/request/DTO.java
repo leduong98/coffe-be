@@ -18,6 +18,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = DiscountDto.class, name = "discount"),
         @JsonSubTypes.Type(value = SliderDto.class, name = "slider"),
         @JsonSubTypes.Type(value = OrderDto.class, name = "order"),
-
+        @JsonSubTypes.Type(value = TransactionDto.class, name = "transaction"),
 })
 public interface DTO<O> {}

@@ -5,14 +5,13 @@ import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
 import com.example.coffeebe.app.dtos.responses.LoginResponse;
+import com.example.coffeebe.app.dtos.responses.UserResponse;
 import com.example.coffeebe.domain.configs.jwt.JwtTokenProvider;
 import com.example.coffeebe.domain.entities.CustomUserDetails;
 import com.example.coffeebe.domain.entities.author.Role;
 import com.example.coffeebe.domain.entities.author.User;
-import com.example.coffeebe.domain.entities.business.Category;
 import com.example.coffeebe.domain.entities.enums.RoleType;
 import com.example.coffeebe.domain.entities.enums.Status;
-
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import lombok.extern.log4j.Log4j2;
@@ -31,9 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Log4j2
@@ -113,6 +110,11 @@ public class UserService extends BaseAbtractService implements BaseService<User,
     @Override
     public User findById(HttpServletRequest request, Long id) {
         return getById(id);
+    }
+
+    public UserResponse getUserLogin() {
+        User user = getUser();
+        return modelMapper.map(user, UserResponse.class);
     }
 
     @Override
