@@ -20,6 +20,8 @@ public class TransactionResponse {
 
     private String address;
 
+    private UserResponse user;
+
     @JsonProperty("payment_info")
     private String paymentInfo;
 

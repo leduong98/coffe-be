@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -29,9 +30,13 @@ public abstract class BaseController<O, ID, P1, FD extends FilterDto<O>> {
     }
 
     @GetMapping("/all")
-    CustomPage<O> findAll(Pageable pageable) {
+    CustomPage<P1> findAll(Pageable pageable) {
         CustomPage<O> page = service.findAll(pageable);
-        return page;
+        CustomPage<P1> customPage = new CustomPage<>();
+        customPage.setData(page.getData().stream().map(ele -> modelMapper.map(ele, responseClass)).collect(Collectors.toList()));
+        customPage.setMetadata(new CustomPage.Metadata(page.getMetadata().getPage(), page.getMetadata().getSize(),
+                page.getMetadata().getTotal(), page.getMetadata().getTotalPage()));
+        return customPage;
     }
 
     @GetMapping("/{id}")

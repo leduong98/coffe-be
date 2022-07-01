@@ -14,7 +14,7 @@ public class OrderResponse {
 
     private Integer quantity;
 
-    private Product product;
+    private ProductResponse product;
 
-    private Discount discount;
+    private DiscountResponse discount;
 }
