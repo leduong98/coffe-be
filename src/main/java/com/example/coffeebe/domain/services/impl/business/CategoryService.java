@@ -3,6 +3,7 @@ package com.example.coffeebe.domain.services.impl.business;
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.CategoryDto;
+import com.example.coffeebe.app.dtos.responses.CategoryResponse;
 import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.domain.entities.business.Category;
 import com.example.coffeebe.domain.services.BaseService;
@@ -16,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -76,6 +79,33 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
     public List<Category> filter(HttpServletRequest request) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public List<CategoryResponse> getCategoryTree() {
+        List<Category> categories = categoryRepository.getAllCategory();
+        if (categories == null || categories.isEmpty()) return new ArrayList<>();
+        List<Category> restChild;
+        List<Long> categoryIds = categories.stream().filter(ele -> ele.getParentId() == 0).map(Category::getId).collect(Collectors.toList());
+        restChild = categories.parallelStream().filter(ele -> !categoryIds.contains(ele.getId())).collect(Collectors.toList());
+        return categories.stream().filter(ele -> categoryIds.contains(ele.getId())).map(ele -> getListCategoryByParent(ele, restChild)).collect(Collectors.toList());
+    }
+
+    private CategoryResponse getListCategoryByParent(Category parent, List<Category> listChild) {
+        CategoryResponse response = modelMapper.map(parent, CategoryResponse.class);
+        if (listChild == null || listChild.isEmpty())
+            return response;
+        List<Category> restChild;
+        List<Long> categoryIds = new ArrayList<>();
+        List<Category> categories = new ArrayList<>();;
+        listChild.parallelStream().forEach(ele -> {
+            if (ele.getParentId().longValue() == parent.getId().longValue()) {
+                categoryIds.add(ele.getId());
+                categories.add(ele);
+            }
+        });
+        restChild = listChild.parallelStream().filter(ele -> !categoryIds.contains(ele.getId())).collect(Collectors.toList());
+        response.setChildren(categories.stream().map(ele -> getListCategoryByParent(ele, restChild)).collect(Collectors.toList()));
+        return response;
     }
 
 }

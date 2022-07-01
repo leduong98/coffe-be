@@ -9,6 +9,8 @@ import com.example.coffeebe.domain.services.impl.business.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/category")
@@ -19,6 +21,11 @@ public class CategoryController extends BaseController<Category, Long, CategoryR
 
     public CategoryController() {
         super(CategoryResponse.class, CategoryFilterDto.class);
+    }
+
+    @GetMapping("/tree")
+    public List<CategoryResponse> initRole(){
+        return categoryService.getCategoryTree();
     }
 
 }
