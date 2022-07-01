@@ -17,8 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BaseAbtractService {
 
-    protected final Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
-
+//    protected final Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
     @Autowired
     public UserRepository userRepository;
 

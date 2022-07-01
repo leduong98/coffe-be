@@ -3,6 +3,7 @@ package com.example.coffeebe.domain.services.impl.business;
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.DiscountDto;
+import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.domain.entities.business.Discount;
 import com.example.coffeebe.domain.entities.business.Product;
 import com.example.coffeebe.domain.services.BaseService;
@@ -22,12 +23,9 @@ import java.util.List;
 @Log4j2
 public class DiscountService extends BaseAbtractService implements BaseService<Discount, Long> {
     @Override
-    public Page<Discount> findAll() throws Exception {
-        Page<Discount> discounts = discountRepository.findAll(pageable);
-        if (discounts.isEmpty()) {
-            throw new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.DISCOUNT_NOT_FOUND);
-        }
-        return discounts;
+    public CustomPage<Discount> findAll(Pageable pageable) {
+        Page<Discount> discountPage = discountRepository.findAll(pageable);
+        return new CustomPage<>(discountPage);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.example.coffeebe.domain.services.impl.business;
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.SliderDto;
+import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.domain.entities.business.Slider;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
@@ -22,12 +23,9 @@ import java.util.List;
 public class SliderService extends BaseAbtractService implements BaseService<Slider, Long> {
 
     @Override
-    public Page<Slider> findAll() throws Exception {
-        Page<Slider> sliders = sliderRepository.findAll(pageable);
-        if (sliders.isEmpty()) {
-            throw new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.SLIDER_NOT_FOUND);
-        }
-        return sliders;
+    public CustomPage<Slider> findAll(Pageable pageable) {
+        Page<Slider> sliderPage = sliderRepository.findAll(pageable);
+        return new CustomPage<>(sliderPage);
     }
 
     @Override

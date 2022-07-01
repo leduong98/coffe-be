@@ -3,6 +3,7 @@ package com.example.coffeebe.domain.services.impl.business;
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.OrderDto;
+import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.domain.entities.business.Order;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
@@ -21,11 +22,7 @@ import java.util.List;
 @Log4j2
 public class OrderService extends BaseAbtractService implements BaseService<Order, Long> {
     @Override
-    public Page<Order> findAll() throws Exception {
-        Page<Order> orders = orderRepository.findAll(pageable);
-        if (orders.isEmpty()) {
-            throw new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.ORDER_NOT_FOUND);
-        }
+    public CustomPage<Order> findAll(Pageable pageable) {
         return null;
     }
 

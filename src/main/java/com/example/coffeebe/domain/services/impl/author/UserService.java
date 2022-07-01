@@ -4,6 +4,7 @@ import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
+import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.app.dtos.responses.LoginResponse;
 import com.example.coffeebe.app.dtos.responses.UserResponse;
 import com.example.coffeebe.domain.configs.jwt.JwtTokenProvider;
@@ -103,7 +104,7 @@ public class UserService extends BaseAbtractService implements BaseService<User,
     }
 
     @Override
-    public Page<User> findAll() throws Exception {
+    public CustomPage<User> findAll(Pageable pageable) {
         return null;
     }
 

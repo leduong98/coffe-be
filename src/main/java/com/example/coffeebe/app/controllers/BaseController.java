@@ -2,6 +2,7 @@ package com.example.coffeebe.app.controllers;
 
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
+import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.domain.services.BaseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public abstract class BaseController<O, ID, P1, FD extends FilterDto<O>> {
     }
 
     @GetMapping("/all")
-    Page<O> findAll() throws Exception {
-        Page<O> page = service.findAll();
+    CustomPage<O> findAll(Pageable pageable) {
+        CustomPage<O> page = service.findAll(pageable);
         return page;
     }
 
