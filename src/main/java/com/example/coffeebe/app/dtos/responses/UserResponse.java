@@ -16,13 +16,10 @@ public class UserResponse {
 
     private Long id;
 
-    @Column(name = "user_name")
-    private String userName;
-
-    private String email;
-
     @JsonProperty("full_name")
     private String fullName;
+
+    private String email;
 
     @JsonProperty("phone")
     private String phoneNumber;

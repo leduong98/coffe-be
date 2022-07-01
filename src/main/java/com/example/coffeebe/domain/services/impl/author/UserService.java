@@ -103,6 +103,20 @@ public class UserService extends BaseAbtractService implements BaseService<User,
         }
     }
 
+    public UserResponse update(HttpServletRequest request, DTO dto){
+        RegisterRequest userDTO = modelMapper.map(dto, RegisterRequest.class);
+        User user = getUser();
+        user.setFullName(userDTO.getFullname());
+        user.setPhoneNumber(userDTO.getPhone());
+        user.setAddress(userDTO.getAddress());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setBirthday(userDTO.getBirthday());
+
+        UserResponse userResponse = modelMapper.map(userRepository.save(user), UserResponse.class);
+        return userResponse;
+    }
+
     @Override
     public CustomPage<User> findAll(Pageable pageable) {
         return null;

@@ -13,9 +13,11 @@ import com.example.coffeebe.domain.services.impl.author.RoleService;
 import com.example.coffeebe.domain.services.impl.author.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -50,6 +52,11 @@ public class UserController extends BaseController<User, Long, UserResponse, Use
     @GetMapping("/info")
     public UserResponse getUser() throws Exception {
         return userService.getUserLogin();
+    }
+
+    @PatchMapping
+    public UserResponse update(HttpServletRequest request, @Valid @RequestBody RegisterRequest registerRequest){
+        return userService.update(request,registerRequest);
     }
 
 
