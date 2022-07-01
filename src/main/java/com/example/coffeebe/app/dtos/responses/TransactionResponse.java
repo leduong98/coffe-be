@@ -22,6 +22,7 @@ public class TransactionResponse {
 
     @JsonProperty("payment_info")
     private String paymentInfo;
+
     private String payment;
 
 }

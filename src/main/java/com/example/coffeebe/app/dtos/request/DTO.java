@@ -19,6 +19,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = SliderDto.class, name = "slider"),
         @JsonSubTypes.Type(value = OrderDto.class, name = "order"),
         @JsonSubTypes.Type(value = TransactionDto.class, name = "transaction"),
-        @JsonSubTypes.Type(value = RegisterRequest.class, name = "user"),
+        @JsonSubTypes.Type(value = UserDto.class, name = "user_update"),
 })
 public interface DTO<O> {}

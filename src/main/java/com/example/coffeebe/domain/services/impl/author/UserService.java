@@ -4,6 +4,7 @@ import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
+import com.example.coffeebe.app.dtos.request.impl.UserDto;
 import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.app.dtos.responses.LoginResponse;
 import com.example.coffeebe.app.dtos.responses.UserResponse;
@@ -104,13 +105,11 @@ public class UserService extends BaseAbtractService implements BaseService<User,
     }
 
     public UserResponse update(HttpServletRequest request, DTO dto){
-        RegisterRequest userDTO = modelMapper.map(dto, RegisterRequest.class);
+        UserDto userDTO = modelMapper.map(dto, UserDto.class);
         User user = getUser();
         user.setFullName(userDTO.getFullname());
         user.setPhoneNumber(userDTO.getPhone());
         user.setAddress(userDTO.getAddress());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
         user.setBirthday(userDTO.getBirthday());
 
         UserResponse userResponse = modelMapper.map(userRepository.save(user), UserResponse.class);
