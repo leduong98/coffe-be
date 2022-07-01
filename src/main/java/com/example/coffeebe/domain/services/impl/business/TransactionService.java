@@ -31,7 +31,10 @@ public class TransactionService extends BaseAbtractService implements BaseServic
 
     @Override
     public CustomPage<Transaction> findAll(Pageable pageable) {
+        return null;
+    }
 
+    public CustomPage<Transaction> findAllByUser(Pageable pageable){
         return null;
     }
 
