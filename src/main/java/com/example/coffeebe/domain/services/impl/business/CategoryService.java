@@ -30,7 +30,7 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
 
     @Override
     public Category findById(HttpServletRequest request, Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.CATEGORY_NOT_FOUND));
+        return getCategoryById(id);
     }
 
     @Override

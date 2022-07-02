@@ -7,12 +7,9 @@ import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.domain.entities.business.Order;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
-import com.example.coffeebe.domain.utils.exception.CustomErrorMessage;
-import com.example.coffeebe.domain.utils.exception.CustomException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,11 +25,7 @@ public class OrderService extends BaseAbtractService implements BaseService<Orde
 
     @Override
     public Order findById(HttpServletRequest request, Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(
-                () -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.ORDER_NOT_FOUND)
-        );
-
-        return order;
+        return getOrderById(id);
     }
 
     @Override

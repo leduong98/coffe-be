@@ -30,9 +30,7 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
 
     @Override
     public Slider findById(HttpServletRequest request, Long id) {
-        return sliderRepository.findById(id).orElseThrow(
-                () -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.SLIDER_NOT_FOUND)
-        );
+        return getSliderById(id);
     }
 
     @Override

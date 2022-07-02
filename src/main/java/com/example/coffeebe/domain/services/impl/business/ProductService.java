@@ -31,7 +31,7 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
 
     @Override
     public Product findById(HttpServletRequest request, Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.PRODUCT_NOT_FOUND));
+        return getProductById(id);
     }
 
     @Override

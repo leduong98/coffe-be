@@ -46,7 +46,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
 
     @Override
     public Transaction findById(HttpServletRequest request, Long id) {
-        return null;
+        return getTransactionById(id);
     }
 
     @Override

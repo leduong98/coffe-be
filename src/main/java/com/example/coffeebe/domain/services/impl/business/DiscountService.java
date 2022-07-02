@@ -30,9 +30,7 @@ public class DiscountService extends BaseAbtractService implements BaseService<D
 
     @Override
     public Discount findById(HttpServletRequest request, Long id) {
-        return discountRepository.findById(id).orElseThrow(
-                () -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.DISCOUNT_NOT_FOUND)
-        );
+        return getDiscountById(id);
     }
 
     @Override
