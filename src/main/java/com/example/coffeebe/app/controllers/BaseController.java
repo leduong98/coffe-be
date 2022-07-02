@@ -2,6 +2,7 @@ package com.example.coffeebe.app.controllers;
 
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
+import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.domain.services.BaseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -28,9 +30,13 @@ public abstract class BaseController<O, ID, P1, FD extends FilterDto<O>> {
     }
 
     @GetMapping("/all")
-    Page<O> findAll() throws Exception {
-        Page<O> page = service.findAll();
-        return page;
+    CustomPage<P1> findAll(Pageable pageable) {
+        CustomPage<O> page = service.findAll(pageable);
+        CustomPage<P1> customPage = new CustomPage<>();
+        customPage.setData(page.getData().stream().map(ele -> modelMapper.map(ele, responseClass)).collect(Collectors.toList()));
+        customPage.setMetadata(new CustomPage.Metadata(page.getMetadata().getPage(), page.getMetadata().getSize(),
+                page.getMetadata().getTotal(), page.getMetadata().getTotalPage()));
+        return customPage;
     }
 
     @GetMapping("/{id}")

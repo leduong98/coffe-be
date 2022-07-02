@@ -1,6 +1,7 @@
 package com.example.coffeebe.app.dtos.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -13,6 +14,7 @@ import java.util.Date;
 public class RegisterRequest {
 
     @NotNull(message = "fullname not null")
+    @JsonProperty("full_name")
     private String fullname;
 
     @NotNull(message = "phone not null")
@@ -30,6 +32,7 @@ public class RegisterRequest {
     private String address;
 
     @NotNull(message = "birthday not null")
+    @JsonFormat(pattern = "YYYY-MM-dd")
     private Date birthday;
 
 }

@@ -3,6 +3,7 @@ package com.example.coffeebe.domain.services.impl.business;
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.CategoryDto;
+import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.domain.entities.business.Category;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
@@ -22,9 +23,9 @@ import java.util.List;
 public class CategoryService extends BaseAbtractService implements BaseService<Category, Long> {
 
     @Override
-    public Page<Category> findAll() {
-        Page<Category> categories = categoryRepository.findAll(pageable);
-        return categories;
+    public CustomPage<Category> findAll(Pageable pageable) {
+        Page<Category> categoryPage = categoryRepository.findAll(pageable);
+        return new CustomPage<>(categoryPage);
     }
 
     @Override

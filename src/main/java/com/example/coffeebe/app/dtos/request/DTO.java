@@ -2,9 +2,6 @@ package com.example.coffeebe.app.dtos.request;
 
 
 import com.example.coffeebe.app.dtos.request.impl.*;
-import com.example.coffeebe.domain.entities.business.Discount;
-import com.example.coffeebe.domain.entities.business.Order;
-import com.example.coffeebe.domain.entities.business.Slider;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -19,5 +16,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = SliderDto.class, name = "slider"),
         @JsonSubTypes.Type(value = OrderDto.class, name = "order"),
         @JsonSubTypes.Type(value = TransactionDto.class, name = "transaction"),
+        @JsonSubTypes.Type(value = UserDto.class, name = "user_update"),
 })
 public interface DTO<O> {}

@@ -14,7 +14,7 @@ public class DiscountResponse {
 
     private Long id;
 
-    private Product product;
+    private ProductResponse product;
 
     private Date startDate;
 

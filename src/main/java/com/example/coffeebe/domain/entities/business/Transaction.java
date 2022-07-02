@@ -2,6 +2,7 @@ package com.example.coffeebe.domain.entities.business;
 
 import com.example.coffeebe.domain.entities.BaseEntity;
 import com.example.coffeebe.domain.entities.author.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -54,6 +55,7 @@ public class Transaction extends BaseEntity {
     private String security;
 
     @OneToMany(mappedBy = "transaction", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Order> orders;
 
     public void setOrderSelf(List<Order> orders) {

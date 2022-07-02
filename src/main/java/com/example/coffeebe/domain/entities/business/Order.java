@@ -1,6 +1,7 @@
 package com.example.coffeebe.domain.entities.business;
 
 import com.example.coffeebe.domain.entities.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,17 +29,18 @@ public class Order extends BaseEntity {
     @Column(name = "amount")
     private Long amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @NotFound(action = NotFoundAction.EXCEPTION)
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "transaction_id")
+    @JsonIgnore
     private Transaction transaction;
 
 }

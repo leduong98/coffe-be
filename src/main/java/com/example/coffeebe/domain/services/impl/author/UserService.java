@@ -4,6 +4,8 @@ import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
+import com.example.coffeebe.app.dtos.request.impl.UserDto;
+import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.app.dtos.responses.LoginResponse;
 import com.example.coffeebe.app.dtos.responses.UserResponse;
 import com.example.coffeebe.domain.configs.jwt.JwtTokenProvider;
@@ -102,8 +104,20 @@ public class UserService extends BaseAbtractService implements BaseService<User,
         }
     }
 
+    public UserResponse update(HttpServletRequest request, DTO dto){
+        UserDto userDTO = modelMapper.map(dto, UserDto.class);
+        User user = getUser();
+        user.setFullName(userDTO.getFullname());
+        user.setPhoneNumber(userDTO.getPhone());
+        user.setAddress(userDTO.getAddress());
+        user.setBirthday(userDTO.getBirthday());
+
+        UserResponse userResponse = modelMapper.map(userRepository.save(user), UserResponse.class);
+        return userResponse;
+    }
+
     @Override
-    public Page<User> findAll() throws Exception {
+    public CustomPage<User> findAll(Pageable pageable) {
         return null;
     }
 

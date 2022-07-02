@@ -4,6 +4,8 @@ import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.OrderDto;
 import com.example.coffeebe.app.dtos.request.impl.TransactionDto;
+import com.example.coffeebe.app.dtos.responses.CustomPage;
+import com.example.coffeebe.app.dtos.responses.TransactionResponse;
 import com.example.coffeebe.domain.entities.author.User;
 import com.example.coffeebe.domain.entities.business.Discount;
 import com.example.coffeebe.domain.entities.business.Order;
@@ -29,8 +31,17 @@ import java.util.stream.Collectors;
 public class TransactionService extends BaseAbtractService implements BaseService<Transaction, Long> {
 
     @Override
-    public Page<Transaction> findAll() throws Exception {
+    public CustomPage<Transaction> findAll(Pageable pageable) {
         return null;
+    }
+
+    public CustomPage<TransactionResponse> findAllByUser(Pageable pageable){
+        User user = getUser();
+        Page<Transaction> transactionPage = transactionRepository.findAllByUser(user.getId(), pageable);
+        CustomPage<TransactionResponse> responsePage = new CustomPage<>();
+        responsePage.setData(transactionPage.getContent().stream().map(ele -> modelMapper.map(ele, TransactionResponse.class)).collect(Collectors.toList()));
+        responsePage.setMetadata(new CustomPage.Metadata(transactionPage));
+        return responsePage;
     }
 
     @Override
@@ -119,4 +130,6 @@ public class TransactionService extends BaseAbtractService implements BaseServic
     public List<Transaction> filter(HttpServletRequest request) {
         return null;
     }
+
+
 }
