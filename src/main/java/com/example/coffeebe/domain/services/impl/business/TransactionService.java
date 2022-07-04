@@ -11,6 +11,7 @@ import com.example.coffeebe.domain.entities.business.Discount;
 import com.example.coffeebe.domain.entities.business.Order;
 import com.example.coffeebe.domain.entities.business.Product;
 import com.example.coffeebe.domain.entities.business.Transaction;
+import com.example.coffeebe.domain.entities.enums.RoleType;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import com.example.coffeebe.domain.utils.Constant;
@@ -18,6 +19,7 @@ import com.example.coffeebe.domain.utils.exception.CustomErrorMessage;
 import com.example.coffeebe.domain.utils.exception.CustomException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,18 @@ public class TransactionService extends BaseAbtractService implements BaseServic
 
     @Override
     public CustomPage<Transaction> findAll(Pageable pageable) {
-        return null;
+        User user = getUser();
+        Page<Transaction> transactionPage = null;
+        if (user.getRole().getName().equals(RoleType.ADMIN)){
+            transactionPage = transactionRepository.findAll(pageable);
+        }else {
+            transactionPage = transactionRepository.findAllByUser(user.getId(), pageable);
+        }
+        CustomPage<Transaction> transactionCustomPage = new CustomPage<>();
+        transactionCustomPage.setData(transactionPage.getContent());
+        transactionCustomPage.setMetadata(new CustomPage.Metadata(transactionPage));
+
+        return transactionCustomPage;
     }
 
     public CustomPage<TransactionResponse> findAllByUser(Pageable pageable){
