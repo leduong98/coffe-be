@@ -30,7 +30,7 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
 
     @Override
     public Slider findById(HttpServletRequest request, Long id) {
-        return sliderRepository.findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.SLIDER_NOT_FOUND));
+        return getSliderById(id);
     }
 
     @Override
@@ -41,13 +41,14 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
                 .link(sliderDto.getLink())
                 .status(sliderDto.getStatus())
                 .build();
+
         sliderRepository.save(slider);
         return slider;
     }
 
     @Override
     public Slider update(HttpServletRequest request, Long id, DTO dto) {
-        SliderDto sliderDto = modelMapper.map(dto,SliderDto.class);
+        SliderDto sliderDto = modelMapper.map(dto, SliderDto.class);
         Slider slider = findById(request, id);
         slider.setName(sliderDto.getName());
         slider.setLink(sliderDto.getLink());
@@ -59,9 +60,7 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
 
     @Override
     public boolean delete(HttpServletRequest request, Long id) {
-        Slider slider = sliderRepository.findById(id).orElseThrow(
-                () -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorMessage.SLIDER_NOT_FOUND)
-        );
+        Slider slider = findById(request,id);
 
         sliderRepository.delete(slider);
         return true;

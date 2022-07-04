@@ -3,6 +3,8 @@ package com.example.coffeebe.domain.utils.exception;
 
 public enum CustomErrorMessage {
     PRODUCT_NOT_FOUND("Product not found"),
+
+    PRODUCT_RATING_NOT_FOUND("ProductRating not found"),
     CATEGORY_NOT_FOUND("Category not found"),
     SLIDER_NOT_FOUND("Slider not found"),
     DISCOUNT_NOT_FOUND("Discount not found"),

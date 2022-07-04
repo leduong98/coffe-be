@@ -1,5 +1,6 @@
 package com.example.coffeebe.app.dtos.responses;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 
@@ -18,6 +19,7 @@ public class CustomPage<T> {
     }
 
     @Data
+    @AllArgsConstructor
     public static class Metadata {
         private int page = 0;
         private int size = 10;

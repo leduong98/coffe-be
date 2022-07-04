@@ -1,24 +1,22 @@
 package com.example.coffeebe.app.dtos.responses;
 
-import com.example.coffeebe.domain.entities.business.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class DiscountResponse {
+@NoArgsConstructor
+public class ProductRatingResponse {
 
     private Long id;
 
     private ProductResponse product;
 
-    private Date startDate;
+    private UserResponse user;
 
-    private Date endDate;
+    private String content;
 
-    private Integer discount;
+    private Integer numberStar;
+
 }
