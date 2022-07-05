@@ -1,5 +1,6 @@
 package com.example.coffeebe.domain.repositories;
 
+import com.example.coffeebe.app.dtos.request.impl.ProductFilterDto;
 import com.example.coffeebe.domain.entities.business.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +12,13 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     boolean existsByName(String name);
-    @Query("SELECT p FROM Product p WHERE p.category.id = ?1 GROUP BY p.id ")
-    Page<Product> findAllByCategory(Long categoryId, Pageable pageable);
+    @Query("SELECT p FROM Product p WHERE " +
+            "(:#{#req.categoryId} is null or  p.category.id = :#{#req.categoryId}) " +
+            "and " +
+            "(:#{#req.categoryName} is null or  p.category.name = :#{#req.categoryName}) " +
+            "and " +
+            "(:#{#req.productName} is null or p.name = :#{#req.productName})" +
+            "ORDER BY p.created_at ASC ")
+    Page<Product> findAllByProductFilter(ProductFilterDto req, Pageable pageable);
 
 }

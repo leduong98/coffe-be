@@ -32,8 +32,8 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
         return new CustomPage<>(productPage);
     }
 
-    public CustomPage<ProductResponse> findAllByCategory(ProductFilterDto productFilterDto, Pageable pageable){
-        Page<Product> productPage = productRepository.findAllByCategory(productFilterDto.getCategoryId(), pageable);
+    public CustomPage<ProductResponse> findAllByProductFilter(ProductFilterDto productFilterDto, Pageable pageable){
+        Page<Product> productPage = productRepository.findAllByProductFilter(productFilterDto, pageable);
         CustomPage<ProductResponse> productCustomPage = new CustomPage<>();
         productCustomPage.setData(productPage.getContent().stream().map(ele -> modelMapper.map(ele, ProductResponse.class)).collect(Collectors.toList()));
         productCustomPage.setMetadata(new CustomPage.Metadata(productPage));

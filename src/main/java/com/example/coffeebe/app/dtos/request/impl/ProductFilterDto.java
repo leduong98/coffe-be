@@ -9,4 +9,9 @@ public class ProductFilterDto implements FilterDto<Product> {
 
     private Long categoryId;
 
+    private String categoryName;
+
+    private String productName;
+
+
 }
