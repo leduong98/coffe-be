@@ -10,9 +10,12 @@ import com.example.coffeebe.domain.entities.business.Category;
 import com.example.coffeebe.domain.entities.business.Product;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
+import com.example.coffeebe.domain.utils.exception.CustomErrorMessage;
+import com.example.coffeebe.domain.utils.exception.CustomException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +49,9 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
     @Override
     public Product create(HttpServletRequest request, DTO dto) {
         ProductDto productDto = modelMapper.map(dto, ProductDto.class);
+        if (productRepository.existsByName(productDto.getName())){
+            throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.NAME_EXISTS);
+        }
         Category category = getCategoryById(productDto.getCategoryId());
         Product product = Product.builder()
                 .category(category)

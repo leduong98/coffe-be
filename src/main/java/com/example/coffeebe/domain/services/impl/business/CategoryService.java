@@ -36,13 +36,15 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
     @Override
     public Category create(HttpServletRequest request, DTO dto) {
         CategoryDto categoryDto = modelMapper.map(dto, CategoryDto.class);
+        if (categoryRepository.existsByName(categoryDto.getName())){
+            throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.NAME_EXISTS);
+        }
         Category category = Category.builder()
                 .link(categoryDto.getLink())
                 .name(categoryDto.getName())
                 .position(categoryDto.getPosition())
                 .parentId(categoryDto.getParentId())
                 .build();
-
         return categoryRepository.save(category);
     }
 

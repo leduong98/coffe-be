@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
+    boolean existsByName(String name);
     @Query("SELECT p FROM Product p WHERE p.category.id = ?1 GROUP BY p.id ")
     Page<Product> findAllByCategory(Long categoryId, Pageable pageable);
 
