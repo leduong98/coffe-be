@@ -63,6 +63,7 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
                 .quantity(productDto.getQuantity())
                 .description(productDto.getDescription())
                 .detail(productDto.getDetail())
+                .status(true)
                 .build();
         return productRepository.save(product);
     }
@@ -85,7 +86,8 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
     @Override
     public boolean delete(HttpServletRequest request, Long id) {
         Product product = findById(request, id);
-        productRepository.delete(product);
+        product.setStatus(false);
+        productRepository.save(product);
         return true;
     }
 

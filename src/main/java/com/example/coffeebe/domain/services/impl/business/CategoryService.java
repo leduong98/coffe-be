@@ -40,10 +40,9 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
             throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.NAME_EXISTS);
         }
         Category category = Category.builder()
-                .link(categoryDto.getLink())
                 .name(categoryDto.getName())
                 .position(categoryDto.getPosition())
-                .parentId(categoryDto.getParentId())
+                .status(true)
                 .build();
         return categoryRepository.save(category);
     }
@@ -53,9 +52,7 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
         Category category = findById(request, id);
         CategoryDto categoryDto = modelMapper.map(dto, CategoryDto.class);
         category.setName(categoryDto.getName());
-        category.setLink(categoryDto.getLink());
         category.setPosition(categoryDto.getPosition());
-        category.setParentId(categoryDto.getParentId());
 
         categoryRepository.save(category);
         return category;
@@ -64,8 +61,8 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
     @Override
     public boolean delete(HttpServletRequest request, Long id) {
         Category category = findById(request, id);
-
-        categoryRepository.delete(category);
+        category.setStatus(false);
+        categoryRepository.save(category);
         return true;
     }
 

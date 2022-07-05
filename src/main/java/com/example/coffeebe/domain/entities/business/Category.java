@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @Entity
 @SuperBuilder
 @Table(name = "category")
+@Where(clause = "status = true")
 public class Category extends BaseEntity {
 
     @Id
@@ -23,13 +25,10 @@ public class Category extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "link")
-    private String link;
-
     @Column(name = "position")
     private Integer position;
 
-    @Column(name = "parent_id")
-    private Long parentId;
+    @Column(name = "status")
+    private Boolean status;
 
 }
