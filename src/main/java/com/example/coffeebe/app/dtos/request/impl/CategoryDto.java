@@ -14,7 +14,7 @@ public class CategoryDto implements DTO<Category> {
 
     private Long id;
 
-    @NotNull(message = "name not null")
+    @NotNull(message = "Name not null")
     private String name;
 
     @NotNull(message = "link not null")

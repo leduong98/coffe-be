@@ -13,4 +13,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("select c from Category c order by c.parentId asc")
     List<Category> getAllCategory();
 
+
+    boolean existsByName(String name);
+
 }

@@ -36,6 +36,9 @@ public class DiscountService extends BaseAbtractService implements BaseService<D
     @Override
     public Discount create(HttpServletRequest request, DTO dto) {
         DiscountDto discountDto = modelMapper.map(dto, DiscountDto.class);
+        if (discountDto.getStartDate().getTime() >= discountDto.getEndDate().getTime()){
+            throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.TIME_INVALID);
+        }
         Discount discount = Discount.builder()
                 .product(getProductById(discountDto.getProductId()))
                 .startDate(discountDto.getStartDate())

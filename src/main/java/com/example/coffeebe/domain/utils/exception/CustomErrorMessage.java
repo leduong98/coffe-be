@@ -14,7 +14,9 @@ public enum CustomErrorMessage {
     DISCOUNT_EXPIRED_TIME("Discount expired time"),
     PRODUCT_INVALID("Product invalid"),
     INVENTORY_NOT_ENOUGH("Inventory not enough"),
-    TRANSACTION_STATUS_INCORRECT("Transaction status incorrect");
+    TRANSACTION_STATUS_INCORRECT("Transaction status incorrect"),
+    TIME_INVALID("Invalid time"),
+    NAME_EXISTS("Name already exists");
 
     public final String val;
 
