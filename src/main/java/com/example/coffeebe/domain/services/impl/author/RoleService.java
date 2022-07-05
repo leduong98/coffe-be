@@ -20,7 +20,6 @@ public class RoleService extends BaseAbtractService {
         List<Role> roles = new ArrayList();
         roles.add(Role.builder().name(RoleType.USER).build());
         roles.add(Role.builder().name(RoleType.ADMIN).build());
-        roles.add(Role.builder().name(RoleType.EMPLOYEE).build());
         roleRepository.saveAll(roles);
     }
 }

@@ -35,7 +35,18 @@ public class TransactionService extends BaseAbtractService implements BaseServic
 
     @Override
     public CustomPage<Transaction> findAll(Pageable pageable) {
-        return null;
+        User user = getUser();
+        Page<Transaction> transactionPage = null;
+        if (user.getRole().getName().equals(RoleType.ADMIN)){
+            transactionPage = transactionRepository.findAll(pageable);
+        }else {
+            transactionPage = transactionRepository.findAllByUser(user.getId(), pageable);
+        }
+        CustomPage<Transaction> transactionCustomPage = new CustomPage<>();
+        transactionCustomPage.setData(transactionPage.getContent());
+        transactionCustomPage.setMetadata(new CustomPage.Metadata(transactionPage));
+
+        return transactionCustomPage;
     }
 
     public CustomPage<TransactionResponse> findAllByUser(Pageable pageable){
