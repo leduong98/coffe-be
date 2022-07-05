@@ -4,6 +4,7 @@ import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.OrderDto;
 import com.example.coffeebe.app.dtos.request.impl.TransactionDto;
+import com.example.coffeebe.app.dtos.request.impl.TransactionStatusDto;
 import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.app.dtos.responses.TransactionResponse;
 import com.example.coffeebe.domain.entities.author.User;
@@ -11,6 +12,8 @@ import com.example.coffeebe.domain.entities.business.Discount;
 import com.example.coffeebe.domain.entities.business.Order;
 import com.example.coffeebe.domain.entities.business.Product;
 import com.example.coffeebe.domain.entities.business.Transaction;
+import com.example.coffeebe.domain.entities.enums.RoleType;
+import com.example.coffeebe.domain.entities.enums.TransactionStatus;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import com.example.coffeebe.domain.utils.Constant;
@@ -56,7 +59,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         List<Product> products = productRepository.findAllById(transactionDto.getOrders().
                 parallelStream().map(OrderDto::getProductID).collect(Collectors.toList()));
         List<Long> discountIds = transactionDto.getOrders().
-                parallelStream().map(OrderDto::getDiscountId).collect(Collectors.toList());
+                parallelStream().filter(ele -> ele.getDiscountId() != null).map(OrderDto::getDiscountId).collect(Collectors.toList());
         List<Discount> discounts = discountIds.isEmpty() ? new ArrayList<>() : discountRepository.findAllById(discountIds);
 
         Map<Long, Product> mapProduct = new HashMap<>();
@@ -75,6 +78,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         transaction.setAddress(transactionDto.getAddress());
         transaction.setPaymentInfo(transactionDto.getPaymentInfo());
         transaction.setPayment(Constant.OFFLINE);
+        transaction.setStatus(TransactionStatus.WAIT_FOR_APPROVE.toString());
         transaction.setUser(user);
         List<Order> orders = new ArrayList<>();
         transactionDto.getOrders().forEach(ele -> {
@@ -129,6 +133,21 @@ public class TransactionService extends BaseAbtractService implements BaseServic
     @Override
     public List<Transaction> filter(HttpServletRequest request) {
         return null;
+    }
+
+    public TransactionResponse changeStatusTransaction(Long id, DTO dto) {
+        TransactionStatusDto statusDto = modelMapper.map(dto, TransactionStatusDto.class);
+        User user = getUser();
+        Transaction transaction = getTransactionById(id);
+        if ((user.getRole().getName().equals(RoleType.USER) && Constant.mapStatusUser.get(transaction.getStatus()).equals(statusDto.getStatus()))||
+                (user.getRole().getName().equals(RoleType.ADMIN) && Constant.mapStatusAdmin.get(transaction.getStatus()).equals(statusDto.getStatus()))) {
+            transaction.setStatus(statusDto.getStatus());
+
+        } else {
+            throw new CustomException(HttpStatus.BAD_REQUEST ,CustomErrorMessage.TRANSACTION_STATUS_INCORRECT);
+        }
+        transaction = transactionRepository.save(transaction);
+        return modelMapper.map(transaction, TransactionResponse.class);
     }
 
 

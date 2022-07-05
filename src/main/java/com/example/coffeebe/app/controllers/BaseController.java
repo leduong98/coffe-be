@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 public abstract class BaseController<O, ID, P1, FD extends FilterDto<O>> {
     final Class<P1> responseClass;
     final Class<FD> filterDto;
-    final ModelMapper modelMapper;
+    @Autowired
+    private ModelMapper modelMapper;
     @Autowired
     BaseService<O, ID> service;
 
     protected BaseController(Class<P1> responseClass, Class<FD> fpClass) {
         this.responseClass = responseClass;
         this.filterDto = fpClass;
-        this.modelMapper = new ModelMapper();
     }
 
     @GetMapping("/all")

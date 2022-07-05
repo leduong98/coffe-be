@@ -20,11 +20,16 @@ public class TransactionResponse {
 
     private String address;
 
+    private String status;
+
     private UserResponse user;
 
     @JsonProperty("payment_info")
     private String paymentInfo;
 
     private String payment;
+
+    private Long id;
+
 
 }
