@@ -65,12 +65,12 @@ public class OrderService extends BaseAbtractService implements BaseService<Orde
     }
 
     @Override
-    public Page<Order> filter(FilterDto<Order> dto, Pageable pageable) {
+    public Page<Order> findAllByFilter(FilterDto<Order> dto, Pageable pageable) {
         return null;
     }
 
     @Override
-    public List<Order> filter(HttpServletRequest request) {
+    public List<Order> findAllByFilter(HttpServletRequest request) {
         return null;
     }
 }

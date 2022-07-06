@@ -60,12 +60,12 @@ public class ProductRatingService extends BaseAbtractService implements BaseServ
     }
 
     @Override
-    public Page<ProductRating> filter(FilterDto<ProductRating> dto, Pageable pageable) {
+    public Page<ProductRating> findAllByFilter(FilterDto<ProductRating> dto, Pageable pageable) {
         return null;
     }
 
     @Override
-    public List<ProductRating> filter(HttpServletRequest request) {
+    public List<ProductRating> findAllByFilter(HttpServletRequest request) {
         return null;
     }
 }

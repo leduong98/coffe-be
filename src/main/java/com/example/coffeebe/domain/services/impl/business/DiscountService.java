@@ -3,9 +3,7 @@ package com.example.coffeebe.domain.services.impl.business;
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.DiscountDto;
-import com.example.coffeebe.app.dtos.request.impl.DiscountFilterDto;
 import com.example.coffeebe.app.dtos.responses.CustomPage;
-import com.example.coffeebe.app.dtos.responses.DiscountResponse;
 import com.example.coffeebe.domain.entities.business.Discount;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -28,15 +25,6 @@ public class DiscountService extends BaseAbtractService implements BaseService<D
     public CustomPage<Discount> findAll(Pageable pageable) {
         Page<Discount> discountPage = discountRepository.findAll(pageable);
         return new CustomPage<>(discountPage);
-    }
-
-    public CustomPage<DiscountResponse> findAllByFilter(DiscountFilterDto filterDto, Pageable pageable){
-        Page<Discount> discountPage = discountRepository.findAllByFilter(filterDto, pageable);
-        CustomPage<DiscountResponse> discountResponseCustomPage = new CustomPage<>();
-        discountResponseCustomPage.setData(discountPage.getContent().stream().map(ele -> modelMapper.map(ele, DiscountResponse.class)).collect(Collectors.toList()));
-        discountResponseCustomPage.setMetadata(new CustomPage.Metadata(discountPage));
-
-        return discountResponseCustomPage;
     }
 
     @Override
@@ -81,12 +69,12 @@ public class DiscountService extends BaseAbtractService implements BaseService<D
     }
 
     @Override
-    public Page<Discount> filter(FilterDto<Discount> dto, Pageable pageable) {
-        return null;
+    public Page<Discount> findAllByFilter(FilterDto<Discount> dto, Pageable pageable) {
+        return discountRepository.findAllByFilter(dto, pageable);
     }
 
     @Override
-    public List<Discount> filter(HttpServletRequest request) {
+    public List<Discount> findAllByFilter(HttpServletRequest request) {
         return null;
     }
 }
