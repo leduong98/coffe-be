@@ -17,6 +17,7 @@ public class CategoryResponse {
 
     private Integer position;
 
-    @JsonProperty("parent_id")
-    private Integer parentId;
+    @JsonProperty("product_detail")
+    private String productDetail;
+
 }

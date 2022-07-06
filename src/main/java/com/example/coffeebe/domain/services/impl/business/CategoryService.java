@@ -42,6 +42,7 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
         Category category = Category.builder()
                 .name(categoryDto.getName())
                 .position(categoryDto.getPosition())
+                .productDetail(categoryDto.getProductDetail())
                 .status(true)
                 .build();
         return categoryRepository.save(category);
@@ -53,6 +54,7 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
         CategoryDto categoryDto = modelMapper.map(dto, CategoryDto.class);
         category.setName(categoryDto.getName());
         category.setPosition(categoryDto.getPosition());
+        category.setProductDetail(categoryDto.getProductDetail());
 
         categoryRepository.save(category);
         return category;
