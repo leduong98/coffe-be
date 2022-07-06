@@ -1,8 +1,11 @@
 package com.example.coffeebe.app.dtos.responses;
 
+import com.example.coffeebe.domain.entities.business.Discount;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,6 +22,8 @@ public class ProductResponse {
     private String image;
 
     private CategoryResponse category;
+
+    private List<Discount> discounts;
 
     private String imageList;
 
