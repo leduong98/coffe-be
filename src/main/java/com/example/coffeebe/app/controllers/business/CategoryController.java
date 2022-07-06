@@ -23,9 +23,9 @@ public class CategoryController extends BaseController<Category, Long, CategoryR
         super(CategoryResponse.class, CategoryFilterDto.class);
     }
 
-    @GetMapping("/tree")
-    public List<CategoryResponse> initRole(){
-        return categoryService.getCategoryTree();
-    }
+//    @GetMapping("/tree")
+//    public List<CategoryResponse> initRole(){
+//        return categoryService.getCategoryTree();
+//    }
 
 }
