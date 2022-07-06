@@ -1,7 +1,6 @@
 package com.example.coffeebe.domain.entities.business;
 
 import com.example.coffeebe.domain.entities.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -53,7 +52,6 @@ public class Product extends BaseEntity {
     private Integer quantity;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Discount> discounts;
 
     @Column(name = "description", columnDefinition = "text")

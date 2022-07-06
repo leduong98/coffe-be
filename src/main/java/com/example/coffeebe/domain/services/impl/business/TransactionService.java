@@ -137,12 +137,12 @@ public class TransactionService extends BaseAbtractService implements BaseServic
     }
 
     @Override
-    public Page<Transaction> filter(FilterDto<Transaction> dto, Pageable pageable) {
+    public Page<Transaction> findAllByFilter(FilterDto<Transaction> dto, Pageable pageable) {
         return null;
     }
 
     @Override
-    public List<Transaction> filter(HttpServletRequest request) {
+    public List<Transaction> findAllByFilter(HttpServletRequest request) {
         return null;
     }
 

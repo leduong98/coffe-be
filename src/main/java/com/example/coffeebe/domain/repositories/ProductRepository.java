@@ -1,5 +1,6 @@
 package com.example.coffeebe.domain.repositories;
 
+import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.ProductFilterDto;
 import com.example.coffeebe.domain.entities.business.Product;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "and " +
             "(:#{#req.productName} is null or p.name = :#{#req.productName})" +
             "ORDER BY p.created_at ASC ")
-    Page<Product> findAllByProductFilter(ProductFilterDto req, Pageable pageable);
+    Page<Product> findAllByFilter(FilterDto<Product> req, Pageable pageable);
 
 }

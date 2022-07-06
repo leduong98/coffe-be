@@ -62,9 +62,12 @@ public abstract class BaseController<O, ID, P1, FD extends FilterDto<O>> {
         return service.delete(request, id);
     }
 
-    @GetMapping()
-    Page<O> filter(FD dto, Pageable pageable) {
-        Page<O> page = service.filter(dto, pageable);
-        return page;
+    @GetMapping("filter")
+    CustomPage<P1> getAllByFilter(FD dto, Pageable pageable) {
+        Page<O> oPage = service.findAllByFilter(dto, pageable);
+        CustomPage<P1> p1CustomPage = new CustomPage<>();
+        p1CustomPage.setData(oPage.getContent().stream().map(ele -> modelMapper.map(ele, responseClass)).collect(Collectors.toList()));
+        p1CustomPage.setMetadata(new CustomPage.Metadata(oPage));
+        return p1CustomPage;
     }
 }

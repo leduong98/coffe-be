@@ -1,14 +1,13 @@
 package com.example.coffeebe.domain.services;
 
 
+import com.example.coffeebe.app.dtos.request.DTO;
+import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.responses.CustomPage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.example.coffeebe.app.dtos.request.DTO;
-import com.example.coffeebe.app.dtos.request.FilterDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -30,7 +29,7 @@ public interface BaseService<T, S> {
   @Transactional(rollbackFor = Exception.class)
   boolean delete(HttpServletRequest request, S id);
 
-  Page<T> filter(FilterDto<T> dto, Pageable pageable);
+  Page<T> findAllByFilter(FilterDto<T> dto, Pageable pageable);
 
-  List<T> filter(HttpServletRequest request);
+  List<T> findAllByFilter(HttpServletRequest request);
 }

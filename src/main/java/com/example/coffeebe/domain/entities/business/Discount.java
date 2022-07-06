@@ -1,6 +1,7 @@
 package com.example.coffeebe.domain.entities.business;
 
 import com.example.coffeebe.domain.entities.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Discount extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
 
     @Column(name = "start_date")

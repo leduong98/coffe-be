@@ -147,12 +147,12 @@ public class UserService extends BaseAbtractService implements BaseService<User,
     }
 
     @Override
-    public Page<User> filter(FilterDto<User> dto, Pageable pageable) {
+    public Page<User> findAllByFilter(FilterDto<User> dto, Pageable pageable) {
         return null;
     }
 
     @Override
-    public List<User> filter(HttpServletRequest request) {
+    public List<User> findAllByFilter(HttpServletRequest request) {
         return null;
     }
 }

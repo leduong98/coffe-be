@@ -64,12 +64,12 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
     }
 
     @Override
-    public Page<Slider> filter(FilterDto<Slider> dto, Pageable pageable) {
+    public Page<Slider> findAllByFilter(FilterDto<Slider> dto, Pageable pageable) {
         return null;
     }
 
     @Override
-    public List<Slider> filter(HttpServletRequest request) {
+    public List<Slider> findAllByFilter(HttpServletRequest request) {
         return null;
     }
 }

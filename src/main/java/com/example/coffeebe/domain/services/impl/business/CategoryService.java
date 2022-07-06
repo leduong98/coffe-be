@@ -70,13 +70,13 @@ public class CategoryService extends BaseAbtractService implements BaseService<C
     }
 
     @Override
-    public Page<Category> filter(FilterDto<Category> dto, Pageable pageable) {
+    public Page<Category> findAllByFilter(FilterDto<Category> dto, Pageable pageable) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<Category> filter(HttpServletRequest request) {
+    public List<Category> findAllByFilter(HttpServletRequest request) {
         // TODO Auto-generated method stub
         return null;
     }

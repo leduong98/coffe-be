@@ -3,9 +3,7 @@ package com.example.coffeebe.domain.services.impl.business;
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.ProductDto;
-import com.example.coffeebe.app.dtos.request.impl.ProductFilterDto;
 import com.example.coffeebe.app.dtos.responses.CustomPage;
-import com.example.coffeebe.app.dtos.responses.ProductResponse;
 import com.example.coffeebe.domain.entities.business.Category;
 import com.example.coffeebe.domain.entities.business.Product;
 import com.example.coffeebe.domain.services.BaseService;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -30,15 +27,6 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
     public CustomPage<Product> findAll(Pageable pageable) {
         Page<Product> productPage =  productRepository.findAll(pageable);
         return new CustomPage<>(productPage);
-    }
-
-    public CustomPage<ProductResponse> findAllByProductFilter(ProductFilterDto productFilterDto, Pageable pageable){
-        Page<Product> productPage = productRepository.findAllByProductFilter(productFilterDto, pageable);
-        CustomPage<ProductResponse> productCustomPage = new CustomPage<>();
-        productCustomPage.setData(productPage.getContent().stream().map(ele -> modelMapper.map(ele, ProductResponse.class)).collect(Collectors.toList()));
-        productCustomPage.setMetadata(new CustomPage.Metadata(productPage));
-
-        return productCustomPage;
     }
 
     @Override
@@ -92,12 +80,12 @@ public class ProductService extends BaseAbtractService implements BaseService<Pr
     }
 
     @Override
-    public Page<Product> filter(FilterDto<Product> dto, Pageable pageable) {
-        return null;
+    public Page<Product> findAllByFilter(FilterDto<Product> dto, Pageable pageable) {
+        return productRepository.findAllByFilter(dto, pageable);
     }
 
     @Override
-    public List<Product> filter(HttpServletRequest request) {
+    public List<Product> findAllByFilter(HttpServletRequest request) {
         return null;
     }
 }
