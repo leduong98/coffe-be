@@ -31,4 +31,7 @@ public class Category extends BaseEntity {
     @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "product_detail")
+    private String productDetail;
+
 }
