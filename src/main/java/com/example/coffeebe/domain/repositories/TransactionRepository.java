@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     @Query("SELECT tr FROM Transaction tr WHERE tr.user.id = ?1")
-    Page<Transaction> findAllByUser(Long userId, Pageable pageable);
+    Page<Transaction> findAllByUser(@Param("userId") Long userId, Pageable pageable);
 
     @Query("SELECT tr FROM Transaction tr WHERE :roleType is NULL or tr.user.role.name = :roleType")
     Page<Transaction> findAllByUserRole(@Param("roleType") String roleType, Pageable pageable);

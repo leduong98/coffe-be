@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @Table(name = "product")
+@Where(clause = "status = true")
 public class Product extends BaseEntity {
 
     @Id
@@ -39,7 +41,7 @@ public class Product extends BaseEntity {
     private Category category;
 
     @Column(name = "status")
-    private String status;
+    private Boolean status;
 
     @Column(name = "image_list")
     private String imageList;
