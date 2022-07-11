@@ -14,5 +14,5 @@ public class SliderResponse {
 
     private String link;
 
-    private String status;
+    private Boolean status;
 }

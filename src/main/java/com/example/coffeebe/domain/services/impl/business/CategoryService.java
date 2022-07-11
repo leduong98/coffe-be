@@ -3,7 +3,6 @@ package com.example.coffeebe.domain.services.impl.business;
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.CategoryDto;
-import com.example.coffeebe.app.dtos.responses.CategoryResponse;
 import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.domain.entities.business.Category;
 import com.example.coffeebe.domain.services.BaseService;
@@ -17,9 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Log4j2

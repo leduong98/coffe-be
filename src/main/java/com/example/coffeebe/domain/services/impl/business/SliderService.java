@@ -4,6 +4,7 @@ import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.SliderDto;
 import com.example.coffeebe.app.dtos.responses.CustomPage;
+import com.example.coffeebe.app.dtos.responses.SliderResponse;
 import com.example.coffeebe.domain.entities.business.Slider;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
@@ -36,7 +37,7 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
         Slider slider = Slider.builder()
                 .name(sliderDto.getName())
                 .link(sliderDto.getLink())
-                .status(sliderDto.getStatus())
+                .status(true)
                 .build();
 
         sliderRepository.save(slider);
@@ -49,7 +50,6 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
         Slider slider = findById(request, id);
         slider.setName(sliderDto.getName());
         slider.setLink(sliderDto.getLink());
-        slider.setStatus(sliderDto.getStatus());
 
         sliderRepository.save(slider);
         return slider;
@@ -71,5 +71,13 @@ public class SliderService extends BaseAbtractService implements BaseService<Sli
     @Override
     public List<Slider> findAllByFilter(HttpServletRequest request) {
         return null;
+    }
+
+    public SliderResponse changeStatus(Long id) {
+        Slider slider = getSliderById(id);
+        slider.setStatus(!slider.getStatus());
+
+        slider = sliderRepository.save(slider);
+        return modelMapper.map(slider, SliderResponse.class);
     }
 }
