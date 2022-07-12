@@ -88,8 +88,6 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         transaction.setUserPhone(transactionDto.getPhone());
         transaction.setAddress(transactionDto.getAddress());
         transaction.setPaymentInfo(transactionDto.getPaymentInfo());
-        transaction.setPayment(Constant.OFFLINE);
-        transaction.setStatus(TransactionStatus.WAIT_FOR_APPROVE.toString());
         transaction.setUser(user);
         List<Order> orders = new ArrayList<>();
         transactionDto.getOrders().forEach(ele -> {
@@ -122,6 +120,8 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         });
         transaction.setAmount(orders.parallelStream().map(Order::getAmount).reduce(0L, Long::sum));
         transaction.setOrderSelf(orders);
+        transaction.setPayment(Constant.OFFLINE);
+        transaction.setStatus(TransactionStatus.WAIT_FOR_APPROVE.toString());
         productRepository.saveAll(mapProduct.values());
         transaction = transactionRepository.save(transaction);
         return transaction;
