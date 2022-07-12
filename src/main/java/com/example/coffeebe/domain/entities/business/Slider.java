@@ -27,6 +27,6 @@ public class Slider extends BaseEntity {
     private String link;
 
     @Column(name = "status")
-    private String status;
+    private Boolean status;
 
 }

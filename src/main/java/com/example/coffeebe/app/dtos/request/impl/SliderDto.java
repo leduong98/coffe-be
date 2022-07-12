@@ -19,6 +19,4 @@ public class SliderDto implements DTO<Slider> {
     @NotNull(message = "link not null")
     private String link;
 
-    @NotNull(message = "status not null")
-    private String status;
 }

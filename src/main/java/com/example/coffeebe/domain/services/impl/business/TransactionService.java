@@ -152,7 +152,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         User user = getUser();
         Transaction transaction = getTransactionById(id);
         if ((user.getRole().getName().equals(RoleType.USER) && Constant.mapStatusUser.get(transaction.getStatus()).equals(statusDto.getStatus()))||
-                (user.getRole().getName().equals(RoleType.ADMIN) && Constant.mapStatusAdmin.get(transaction.getStatus()).equals(statusDto.getStatus()))) {
+            (user.getRole().getName().equals(RoleType.ADMIN) && Constant.mapStatusAdmin.get(transaction.getStatus()).equals(statusDto.getStatus()))) {
             transaction.setStatus(statusDto.getStatus());
 
         } else if (user.getRole().getName().equals(RoleType.ADMIN) && statusDto.getStatus().equals(TransactionStatus.CANCEL.toString()) &&
@@ -164,6 +164,4 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         transaction = transactionRepository.save(transaction);
         return modelMapper.map(transaction, TransactionResponse.class);
     }
-
-
 }
