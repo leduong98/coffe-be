@@ -5,6 +5,7 @@ import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.DiscountDto;
 import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.domain.entities.business.Discount;
+import com.example.coffeebe.domain.entities.business.Product;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import com.example.coffeebe.domain.utils.exception.CustomErrorMessage;
@@ -35,14 +36,25 @@ public class DiscountService extends BaseAbtractService implements BaseService<D
     @Override
     public Discount create(HttpServletRequest request, DTO dto) {
         DiscountDto discountDto = modelMapper.map(dto, DiscountDto.class);
-        if (discountDto.getStartDate().getTime() >= discountDto.getEndDate().getTime()){
+
+        Product product = getProductById(discountDto.getProductId());
+        List<Discount> discounts = product.getDiscounts();
+
+        if (discountDto.getStartDate().getTime() > discountDto.getEndDate().getTime()){
             throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.TIME_INVALID);
         }
+
+        if (discounts.parallelStream().anyMatch(item -> (discountDto.getStartDate().getTime() < item.getEndDate().getTime() && discountDto.getEndDate().getTime() >= item.getStartDate().getTime())))
+        {
+            throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.DUPLICATE_TIME_RECORD);
+        }
+
         Discount discount = Discount.builder()
                 .product(getProductById(discountDto.getProductId()))
                 .startDate(discountDto.getStartDate())
                 .endDate(discountDto.getEndDate())
                 .discount(discountDto.getDiscount())
+                .name(discountDto.getName())
                 .build();
 
         return discountRepository.save(discount);
@@ -56,6 +68,7 @@ public class DiscountService extends BaseAbtractService implements BaseService<D
         discount.setStartDate(discountDto.getStartDate());
         discount.setEndDate(discountDto.getEndDate());
         discount.setDiscount(discountDto.getDiscount());
+        discount.setName(discountDto.getName());
 
         return discountRepository.save(discount);
     }

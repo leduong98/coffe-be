@@ -1,6 +1,6 @@
 package com.example.coffeebe.app.dtos.responses;
 
-import com.example.coffeebe.domain.entities.business.Product;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +16,13 @@ public class DiscountResponse {
 
     private ProductResponse product;
 
+    @JsonFormat(pattern = "YYYY-MM-dd")
     private Date startDate;
 
+    @JsonFormat(pattern = "YYYY-MM-dd")
     private Date endDate;
+
+    private String name;
 
     private Integer discount;
 }

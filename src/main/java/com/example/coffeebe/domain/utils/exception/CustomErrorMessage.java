@@ -16,7 +16,8 @@ public enum CustomErrorMessage {
     INVENTORY_NOT_ENOUGH("Inventory not enough"),
     TRANSACTION_STATUS_INCORRECT("Transaction status incorrect"),
     TIME_INVALID("Invalid time"),
-    NAME_EXISTS("Name already exists");
+    NAME_EXISTS("Name already exists"),
+    DUPLICATE_TIME_RECORD("Duplicate time record");
 
     public final String val;
 

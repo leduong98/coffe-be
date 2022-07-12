@@ -27,4 +27,7 @@ public class DiscountDto implements DTO<Discount> {
 
     @NotNull(message = "discount not null")
     private Integer discount;
+
+    private String name;
+
 }

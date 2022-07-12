@@ -16,5 +16,7 @@ public class OrderResponse {
 
     private ProductResponse product;
 
+    private Long amount;
+
     private DiscountResponse discount;
 }

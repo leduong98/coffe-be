@@ -120,6 +120,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
             order.setAmount(amount);
             orders.add(order);
         });
+        transaction.setAmount(orders.parallelStream().map(Order::getAmount).reduce(0L, Long::sum));
         transaction.setOrderSelf(orders);
         productRepository.saveAll(mapProduct.values());
         transaction = transactionRepository.save(transaction);
@@ -154,6 +155,9 @@ public class TransactionService extends BaseAbtractService implements BaseServic
                 (user.getRole().getName().equals(RoleType.ADMIN) && Constant.mapStatusAdmin.get(transaction.getStatus()).equals(statusDto.getStatus()))) {
             transaction.setStatus(statusDto.getStatus());
 
+        } else if (user.getRole().getName().equals(RoleType.ADMIN) && statusDto.getStatus().equals(TransactionStatus.CANCEL.toString()) &&
+                (transaction.getStatus().equals(TransactionStatus.WAIT_FOR_APPROVE.toString()) || transaction.getStatus().equals(TransactionStatus.APPROVED.toString()))) {
+            transaction.setStatus(TransactionStatus.CANCEL.toString());
         } else {
             throw new CustomException(HttpStatus.BAD_REQUEST ,CustomErrorMessage.TRANSACTION_STATUS_INCORRECT);
         }

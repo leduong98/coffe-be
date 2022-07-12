@@ -27,6 +27,9 @@ public class Discount extends BaseEntity {
     @JsonIgnore
     private Product product;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "start_date")
     private Date startDate;
 
