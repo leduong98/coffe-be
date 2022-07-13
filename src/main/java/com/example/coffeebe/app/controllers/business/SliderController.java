@@ -25,7 +25,7 @@ public class SliderController extends BaseController<Slider, Long, SliderRespons
     }
 
     @PostMapping("/{id}/status")
-    SliderResponse changeStatusTransaction(@PathVariable Long id){
+    SliderResponse changeStatus(@PathVariable Long id){
         return sliderService.changeStatus(id);
     }
 }

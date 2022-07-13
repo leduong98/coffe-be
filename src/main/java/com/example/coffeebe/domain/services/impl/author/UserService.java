@@ -17,6 +17,7 @@ import com.example.coffeebe.domain.entities.enums.Status;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import lombok.extern.log4j.Log4j2;
+import net.minidev.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -118,7 +119,8 @@ public class UserService extends BaseAbtractService implements BaseService<User,
 
     @Override
     public CustomPage<User> findAll(Pageable pageable) {
-        return null;
+        Page<User> userPage = userRepository.findAll(pageable);
+        return new CustomPage<>(userPage);
     }
 
     @Override
@@ -129,6 +131,16 @@ public class UserService extends BaseAbtractService implements BaseService<User,
     public UserResponse getUserLogin() {
         User user = getUser();
         return modelMapper.map(user, UserResponse.class);
+    }
+
+    public UserResponse changeStatus(Long id) {
+        User user = getById(id);
+        if (user.getStatus().equals(Status.ACTIVE)) {
+            user.setStatus(Status.NON_ACTIVE);
+        } else {
+            user.setStatus(Status.ACTIVE);
+        }
+        return modelMapper.map(userRepository.save(user), UserResponse.class);
     }
 
     @Override
@@ -155,4 +167,5 @@ public class UserService extends BaseAbtractService implements BaseService<User,
     public List<User> findAllByFilter(HttpServletRequest request) {
         return null;
     }
+
 }

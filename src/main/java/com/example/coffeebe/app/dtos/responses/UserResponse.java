@@ -30,4 +30,6 @@ public class UserResponse {
     @JsonFormat(pattern = "YYYY-MM-dd")
     private Date birthday;
 
+    private String status;
+
 }

@@ -5,11 +5,13 @@ import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.LoginRequest;
 import com.example.coffeebe.app.dtos.request.RegisterRequest;
 import com.example.coffeebe.app.dtos.request.impl.UserFilterDto;
+import com.example.coffeebe.app.dtos.responses.CustomPage;
 import com.example.coffeebe.app.dtos.responses.UserResponse;
 import com.example.coffeebe.domain.entities.author.User;
 import com.example.coffeebe.domain.services.impl.author.RoleService;
 import com.example.coffeebe.domain.services.impl.author.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +37,7 @@ public class UserController extends BaseController<User, Long, UserResponse, Use
         roleService.initRole();
     }
 
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest){
         return userService.register(registerRequest);
@@ -53,5 +56,10 @@ public class UserController extends BaseController<User, Long, UserResponse, Use
     @PatchMapping
     public UserResponse update(HttpServletRequest request, @Valid @RequestBody DTO userDto){
         return userService.update(request,userDto);
+    }
+
+    @PostMapping("{id}/status")
+    public UserResponse changeStatus(@PathVariable Long id){
+        return userService.changeStatus(id);
     }
 }
