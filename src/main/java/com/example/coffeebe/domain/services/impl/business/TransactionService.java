@@ -37,9 +37,9 @@ public class TransactionService extends BaseAbtractService implements BaseServic
     public CustomPage<Transaction> findAll(Pageable pageable) {
         User user = getUser();
         Page<Transaction> transactionPage = null;
-        if (user.getRole().getName().equals(RoleType.ADMIN)){
+        if (user.getRole().getName().equals(RoleType.ADMIN)) {
             transactionPage = transactionRepository.findAll(pageable);
-        }else {
+        } else {
             transactionPage = transactionRepository.findAllByUser(user.getId(), pageable);
         }
         CustomPage<Transaction> transactionCustomPage = new CustomPage<>();
@@ -49,7 +49,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         return transactionCustomPage;
     }
 
-    public CustomPage<TransactionResponse> findAllByUser(Pageable pageable){
+    public CustomPage<TransactionResponse> findAllByUser(Pageable pageable) {
         User user = getUser();
         Page<Transaction> transactionPage = transactionRepository.findAllByUser(user.getId(), pageable);
         CustomPage<TransactionResponse> responsePage = new CustomPage<>();
@@ -67,8 +67,12 @@ public class TransactionService extends BaseAbtractService implements BaseServic
     public Transaction create(HttpServletRequest request, DTO dto) {
         User user = getUser();
         TransactionDto transactionDto = modelMapper.map(dto, TransactionDto.class);
-        List<Product> products = productRepository.findAllById(transactionDto.getOrders().
-                parallelStream().map(OrderDto::getProductID).collect(Collectors.toList()));
+        List<Long> productIds = transactionDto.getOrders().parallelStream().map(OrderDto::getProductID).collect(Collectors.toList());
+        List<Product> products = productRepository.findAllById(productIds);
+        if (products.size() != productIds.size()){
+            throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.INVALID_PRODUCT_ID);
+        }
+
         List<Long> discountIds = transactionDto.getOrders().
                 parallelStream().filter(ele -> ele.getDiscountId() != null).map(OrderDto::getDiscountId).collect(Collectors.toList());
         List<Discount> discounts = discountIds.isEmpty() ? new ArrayList<>() : discountRepository.findAllById(discountIds);
@@ -107,7 +111,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
                 }
                 Long now = (new Date()).getTime();
                 if (discount.getStartDate().getTime() <= now && discount.getEndDate().getTime() >= now) {
-                    amount = product.getPrice() * ele.getQuantity() * (100 - discount.getDiscount()/100);
+                    amount = product.getPrice() * ele.getQuantity() * (100 - discount.getDiscount() / 100);
                     order.setAmount(amount);
                 } else {
                     throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.DISCOUNT_EXPIRED_TIME);
@@ -151,15 +155,15 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         TransactionStatusDto statusDto = modelMapper.map(dto, TransactionStatusDto.class);
         User user = getUser();
         Transaction transaction = getTransactionById(id);
-        if ((user.getRole().getName().equals(RoleType.USER) && Constant.mapStatusUser.get(transaction.getStatus()).equals(statusDto.getStatus()))||
-            (user.getRole().getName().equals(RoleType.ADMIN) && Constant.mapStatusAdmin.get(transaction.getStatus()).equals(statusDto.getStatus()))) {
+        if ((user.getRole().getName().equals(RoleType.USER) && Constant.mapStatusUser.get(transaction.getStatus()).equals(statusDto.getStatus())) ||
+                (user.getRole().getName().equals(RoleType.ADMIN) && Constant.mapStatusAdmin.get(transaction.getStatus()).equals(statusDto.getStatus()))) {
             transaction.setStatus(statusDto.getStatus());
 
         } else if (user.getRole().getName().equals(RoleType.ADMIN) && statusDto.getStatus().equals(TransactionStatus.CANCEL.toString()) &&
                 (transaction.getStatus().equals(TransactionStatus.WAIT_FOR_APPROVE.toString()) || transaction.getStatus().equals(TransactionStatus.APPROVED.toString()))) {
             transaction.setStatus(TransactionStatus.CANCEL.toString());
         } else {
-            throw new CustomException(HttpStatus.BAD_REQUEST ,CustomErrorMessage.TRANSACTION_STATUS_INCORRECT);
+            throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.TRANSACTION_STATUS_INCORRECT);
         }
         transaction = transactionRepository.save(transaction);
         return modelMapper.map(transaction, TransactionResponse.class);

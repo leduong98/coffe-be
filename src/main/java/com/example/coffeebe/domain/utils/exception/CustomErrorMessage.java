@@ -17,7 +17,8 @@ public enum CustomErrorMessage {
     TRANSACTION_STATUS_INCORRECT("Transaction status incorrect"),
     TIME_INVALID("Invalid time"),
     NAME_EXISTS("Name already exists"),
-    DUPLICATE_TIME_RECORD("Duplicate time record");
+    DUPLICATE_TIME_RECORD("Duplicate time record"),
+    INVALID_PRODUCT_ID("ProductID invalid");
 
     public final String val;
 
