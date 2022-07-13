@@ -25,7 +25,7 @@ public class TransactionStatusDto implements DTO<Transaction> {
                 || status.equals(TransactionStatus.APPROVED.toString())
                 || status.equals(TransactionStatus.TRANSPORT.toString())
                 || status.equals(TransactionStatus.CANCEL.toString())
-                ||status.equals(TransactionStatus.RECEIVED.toString());
+                || status.equals(TransactionStatus.RECEIVED.toString());
     }
 
 }

@@ -54,6 +54,4 @@ public class UserController extends BaseController<User, Long, UserResponse, Use
     public UserResponse update(HttpServletRequest request, @Valid @RequestBody DTO userDto){
         return userService.update(request,userDto);
     }
-
-
 }
