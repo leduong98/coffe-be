@@ -27,7 +27,7 @@ public class Order extends BaseEntity {
     private Integer quantity;
 
     @Column(name = "amount")
-    private Long amount;
+    private Double amount;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

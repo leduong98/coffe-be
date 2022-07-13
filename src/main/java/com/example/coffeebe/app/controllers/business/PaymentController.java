@@ -20,10 +20,10 @@ public class PaymentController {
     public Map<String, Object> makePayment(@RequestParam("sum") String sum){
         return paymentService.createPayment(sum);
     }
-
-    @PostMapping(value = "/complete")
-    public Map<String, Object> completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId, @RequestParam("payerId") String payerId){
-        return paymentService.completePayment(request);
-    }
+//
+//    @PostMapping(value = "/complete")
+//    public Map<String, Object> completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId, @RequestParam("payerId") String payerId){
+//        return paymentService.completePayment(request);
+//    }
 
 }

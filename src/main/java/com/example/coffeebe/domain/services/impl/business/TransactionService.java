@@ -3,6 +3,7 @@ package com.example.coffeebe.domain.services.impl.business;
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.app.dtos.request.impl.OrderDto;
+import com.example.coffeebe.app.dtos.request.impl.PaymentDto;
 import com.example.coffeebe.app.dtos.request.impl.TransactionDto;
 import com.example.coffeebe.app.dtos.request.impl.TransactionStatusDto;
 import com.example.coffeebe.app.dtos.responses.CustomPage;
@@ -17,9 +18,11 @@ import com.example.coffeebe.domain.entities.enums.TransactionStatus;
 import com.example.coffeebe.domain.services.BaseService;
 import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import com.example.coffeebe.domain.utils.Constant;
+import com.example.coffeebe.domain.utils.Helper;
 import com.example.coffeebe.domain.utils.exception.CustomErrorMessage;
 import com.example.coffeebe.domain.utils.exception.CustomException;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -32,6 +35,9 @@ import java.util.stream.Collectors;
 @Service
 @Log4j2
 public class TransactionService extends BaseAbtractService implements BaseService<Transaction, Long> {
+
+    @Autowired
+    PaymentService paymentService;
 
     @Override
     public CustomPage<Transaction> findAll(Pageable pageable) {
@@ -69,7 +75,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         TransactionDto transactionDto = modelMapper.map(dto, TransactionDto.class);
         List<Long> productIds = transactionDto.getOrders().parallelStream().map(OrderDto::getProductID).collect(Collectors.toList());
         List<Product> products = productRepository.findAllById(productIds);
-        if (products.size() != productIds.size()){
+        if (products.size() != productIds.size()) {
             throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.INVALID_PRODUCT_ID);
         }
 
@@ -103,7 +109,7 @@ public class TransactionService extends BaseAbtractService implements BaseServic
             order.setProduct(product);
             order.setQuantity(ele.getQuantity());
             product.setQuantity(product.getQuantity() - ele.getQuantity());
-            long amount;
+            double amount;
             if (ele.getDiscountId() != null) {
                 Discount discount = mapDiscount.get(ele.getDiscountId());
                 if (discount.getProduct().getId().longValue() != ele.getProductID().longValue()) {
@@ -111,7 +117,8 @@ public class TransactionService extends BaseAbtractService implements BaseServic
                 }
                 Long now = (new Date()).getTime();
                 if (discount.getStartDate().getTime() <= now && discount.getEndDate().getTime() >= now) {
-                    amount = product.getPrice() * ele.getQuantity() * (100 - discount.getDiscount() / 100);
+                    amount = product.getPrice() * ele.getQuantity() * (100 - discount.getDiscount() / 100d);
+                    amount = Helper.roundTwoDecimal(amount);
                     order.setAmount(amount);
                 } else {
                     throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.DISCOUNT_EXPIRED_TIME);
@@ -122,9 +129,20 @@ public class TransactionService extends BaseAbtractService implements BaseServic
             order.setAmount(amount);
             orders.add(order);
         });
-        transaction.setAmount(orders.parallelStream().map(Order::getAmount).reduce(0L, Long::sum));
+        transaction.setAmount(orders.parallelStream().map(Order::getAmount).reduce(0d, Double::sum));
         transaction.setOrderSelf(orders);
-        transaction.setPayment(Constant.OFFLINE);
+        transaction.setPayment(transactionDto.getPayment());
+        if (transactionDto.getPayment().equals(Constant.ONLINE)) {
+            PaymentDto result = paymentService.completePayment(transactionDto.getPaymentId(), transactionDto.getPayerId());
+            if (result == null) {
+                throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.PAYMENT_ERROR);
+            }
+            Double amount = Double.parseDouble(result.getTransactions().get(0).getAmount().getTotal());
+            if (amount != transaction.getAmount().doubleValue()) {
+                throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.PAYMENT_ERROR);
+            }
+        }
+
         transaction.setStatus(TransactionStatus.WAIT_FOR_APPROVE.toString());
         productRepository.saveAll(mapProduct.values());
         transaction = transactionRepository.save(transaction);

@@ -37,7 +37,7 @@ public class Transaction extends BaseEntity {
     private String userPhone;
 
     @Column(name = "amount")
-    private Long amount;
+    private Double amount;
 
     @Column(name = "payment_info")
     private String paymentInfo;

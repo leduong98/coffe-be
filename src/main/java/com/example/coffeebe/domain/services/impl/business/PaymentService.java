@@ -1,5 +1,7 @@
 package com.example.coffeebe.domain.services.impl.business;
 
+import com.example.coffeebe.app.dtos.request.impl.PaymentDto;
+import com.example.coffeebe.domain.services.impl.BaseAbtractService;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
@@ -15,7 +17,7 @@ import java.util.Map;
 
 @Service
 @Log4j2
-public class PaymentService {
+public class PaymentService extends BaseAbtractService {
 
     @Value("${paypal.client.id}")
     private String clientId;
@@ -42,7 +44,7 @@ public class PaymentService {
 
         RedirectUrls redirectUrls = new RedirectUrls();
         redirectUrls.setCancelUrl("http://localhost:3000/cancel");
-        redirectUrls.setReturnUrl("http://localhost:3000");
+        redirectUrls.setReturnUrl("http://localhost:3000/payment/success");
         payment.setRedirectUrls(redirectUrls);
         Payment createdPayment;
         try {
@@ -67,22 +69,20 @@ public class PaymentService {
     }
 
 
-    public Map<String, Object> completePayment(HttpServletRequest req){
-        Map<String, Object> response = new HashMap();
+    public PaymentDto completePayment(String paymentId, String payerId){
+        PaymentDto paymentDto = null;
         Payment payment = new Payment();
-        payment.setId(req.getParameter("paymentId"));
+        payment.setId(paymentId);
         PaymentExecution paymentExecution = new PaymentExecution();
-        paymentExecution.setPayerId(req.getParameter("payerId"));
+        paymentExecution.setPayerId(payerId);
         try {
             APIContext context = new APIContext(clientId, clientSecret, "sandbox");
             Payment createdPayment = payment.execute(context, paymentExecution);
-            if(createdPayment!=null){
-                response.put("status", "success");
-                response.put("payment", createdPayment);
-            }
+            paymentDto = modelMapper.map(createdPayment, PaymentDto.class);
+
         } catch (PayPalRESTException e) {
             System.err.println(e.getDetails());
         }
-        return response;
+        return paymentDto;
     }
 }

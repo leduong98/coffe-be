@@ -3,9 +3,11 @@ package com.example.coffeebe.app.dtos.request.impl;
 import com.example.coffeebe.app.dtos.request.DTO;
 import com.example.coffeebe.app.dtos.request.FilterDto;
 import com.example.coffeebe.domain.entities.business.Transaction;
+import com.example.coffeebe.domain.utils.Constant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.Column;
 import javax.validation.Valid;
@@ -37,9 +39,18 @@ public class TransactionDto implements DTO<Transaction> {
     @NotNull(message = "payment not null")
     private String payment;
 
+    @AssertTrue(message = "payment invalid")
+    protected boolean isValidPayment() {
+        return (Constant.ONLINE.equals(payment) && this.paymentId != null && this.payerId != null) || Constant.OFFLINE.equals(payment);
+    }
+
     @AssertTrue(message = "Email or phone not null")
     protected boolean isValidUserEmailOrPhone() {
         return this.email != null || this.phone != null;
     }
+
+    private String paymentId;
+
+    private String payerId;
 
 }

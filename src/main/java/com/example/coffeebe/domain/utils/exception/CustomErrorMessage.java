@@ -18,7 +18,8 @@ public enum CustomErrorMessage {
     TIME_INVALID("Invalid time"),
     NAME_EXISTS("Name already exists"),
     DUPLICATE_TIME_RECORD("Duplicate time record"),
-    INVALID_PRODUCT_ID("ProductID invalid");
+    INVALID_PRODUCT_ID("ProductID invalid"),
+    PAYMENT_ERROR("Payment error");
 
     public final String val;
 
