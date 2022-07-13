@@ -69,6 +69,9 @@ public class TransactionService extends BaseAbtractService implements BaseServic
         TransactionDto transactionDto = modelMapper.map(dto, TransactionDto.class);
         List<Long> productIds = transactionDto.getOrders().parallelStream().map(OrderDto::getProductID).collect(Collectors.toList());
         List<Product> products = productRepository.findAllById(productIds);
+        if (products.size() != productIds.size()){
+            throw new CustomException(HttpStatus.BAD_REQUEST, CustomErrorMessage.INVALID_PRODUCT_ID);
+        }
 
         List<Long> discountIds = transactionDto.getOrders().
                 parallelStream().filter(ele -> ele.getDiscountId() != null).map(OrderDto::getDiscountId).collect(Collectors.toList());
